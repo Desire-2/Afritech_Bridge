@@ -1,26 +1,209 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'AFritech Bridge - Connecting Rwanda Youth to Global Tech Opportunities',
+  description: 'AFritech Bridge offers professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu. We connect Rwanda youth with global technology opportunities.',
+  keywords: 'Rwanda technology, software development, tech education, programming courses, web development, mobile apps, Kigali tech company, Musanze programming, Nyabihu tech training, African tech talent, global opportunities, Desire Bikorimana',
+  authors: [{ name: 'Desire Bikorimana', url: 'https://afritechbridge.com' }],
+  creator: 'AFritech Bridge',
+  publisher: 'AFritech Bridge',
+  openGraph: {
+    title: 'AFritech Bridge - Connecting Rwanda Youth to Global Tech Opportunities',
+    description: 'Professional software development services and comprehensive tech education in Rwanda. Bridging youth to global opportunities.',
+    url: 'https://afritechbridge.com',
+    siteName: 'AFritech Bridge',
+    images: [
+      {
+        url: '/images/hero_section.png',
+        width: 1200,
+        height: 630,
+        alt: 'AFritech Bridge - Rwanda Tech Education and Development',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AFritech Bridge - Rwanda Tech Education & Development',
+    description: 'Connecting Rwanda youth to global tech opportunities through education and professional software development.',
+    images: ['/images/hero_section.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+  },
+}
 
 export default function Home() {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://afritechbridge.com/#organization",
+        "name": "AFritech Bridge",
+        "alternateName": "AFritech Bridge Rwanda",
+        "url": "https://afritechbridge.com",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://afritechbridge.com/images/logo.png",
+          "width": 200,
+          "height": 200
+        },
+        "description": "Rwanda's premier technology company connecting youth with global opportunities through professional software development and tech education.",
+        "founder": {
+          "@type": "Person",
+          "name": "Desire Bikorimana",
+          "jobTitle": "Founder & CEO"
+        },
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Kigali",
+            "addressCountry": "Rwanda",
+            "streetAddress": "Norrsken House"
+          },
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Musanze",
+            "addressCountry": "Rwanda",
+            "streetAddress": "Near Iness Ruhengeri"
+          },
+          {
+            "@type": "PostalAddress",
+            "addressLocality": "Nyabihu",
+            "addressCountry": "Rwanda",
+            "streetAddress": "Mukamira"
+          }
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+250780784924",
+          "contactType": "customer service",
+          "email": "afritech.bridge@gmail.com"
+        },
+        "sameAs": [
+          "https://linkedin.com/company/afritech-bridge",
+          "https://twitter.com/afritechbridge"
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://afritechbridge.com/#website",
+        "url": "https://afritechbridge.com",
+        "name": "AFritech Bridge",
+        "description": "Professional software development and tech education in Rwanda",
+        "publisher": {
+          "@id": "https://afritechbridge.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://afritechbridge.com/search?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "EducationalOrganization",
+        "name": "AFritech Bridge",
+        "description": "Comprehensive technology education and training in Rwanda",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Kigali, Musanze, Nyabihu",
+          "addressCountry": "Rwanda"
+        },
+        "offers": [
+          {
+            "@type": "Course",
+            "name": "Web Development Course",
+            "description": "Learn modern web development with React, Node.js, and Next.js",
+            "provider": {
+              "@id": "https://afritechbridge.com/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Mobile App Development",
+            "description": "Build mobile applications for Android and iOS platforms",
+            "provider": {
+              "@id": "https://afritechbridge.com/#organization"
+            }
+          },
+          {
+            "@type": "Course",
+            "name": "Programming Languages",
+            "description": "Master Python, JavaScript, Java, and C++ programming",
+            "provider": {
+              "@id": "https://afritechbridge.com/#organization"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "AFritech Bridge",
+        "@id": "https://afritechbridge.com/#localbusiness",
+        "description": "Software development and technology education company in Rwanda",
+        "priceRange": "$$",
+        "telephone": "+250780784924",
+        "email": "afritech.bridge@gmail.com",
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "Norrsken House",
+            "addressLocality": "Kigali",
+            "addressCountry": "Rwanda"
+          }
+        ],
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -1.9441,
+          "longitude": 30.0619
+        },
+        "openingHours": "Mo-Fr 08:00-18:00",
+        "image": "https://afritechbridge.com/images/logo.png"
+      }
+    ]
+  }
+
   return (
     <div className="min-h-screen bg-white">
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
       {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
+      <nav className="bg-white shadow-sm border-b border-gray-100" role="navigation" aria-label="Main navigation">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <Image
                 src="/images/logo.png"
-                alt="AFritech Bridge"
+                alt="AFritech Bridge Rwanda Technology Company Logo"
                 width={40}
                 height={40}
                 className="mr-3"
+                priority
               />
-              <span className="text-xl font-bold text-[#1A2B4C]">AFritech Bridge</span>
+              <h1 className="text-xl font-bold text-[#1A2B4C]">AFritech Bridge</h1>
             </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors" aria-current="page">
                   Home
                 </Link>
                 <Link href="/services" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
@@ -42,14 +225,14 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-[#1A2B4C] via-[#00A896] to-[#1A2B4C] text-white">
+      <header className="relative bg-gradient-to-br from-[#1A2B4C] via-[#00A896] to-[#1A2B4C] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              <h2 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                 Bridging Rwanda's Youth to 
                 <span className="text-[#FF7F50]"> Global Tech Opportunities</span>
-              </h1>
+              </h2>
               <p className="text-xl mb-8 text-gray-200">
                 We connect youth with global opportunities through professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu.
               </p>
@@ -65,55 +248,56 @@ export default function Home() {
             <div className="relative">
               <Image
                 src="/images/hero_section.png"
-                alt="Youth connecting with global opportunities"
+                alt="Rwanda youth connecting with global technology opportunities through AFritech Bridge education"
                 width={600}
                 height={400}
                 className="rounded-lg shadow-2xl"
+                priority
               />
             </div>
           </div>
         </div>
-      </section>
+      </header>
 
       {/* About Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50" id="about" aria-labelledby="about-heading">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1A2B4C] mb-4">
-              About AFritech Bridge
+            <h2 id="about-heading" className="text-3xl md:text-4xl font-bold text-[#1A2B4C] mb-4">
+              About AFritech Bridge - Rwanda's Premier Tech Company
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              AFritech Bridge is Rwanda's premier technology company, dedicated to connecting young talent with global opportunities through professional software development services and comprehensive tech education.
+              AFritech Bridge is Rwanda's premier technology company, dedicated to connecting young talent with global opportunities through professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <article className="text-center">
+              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-[#1A2B4C] mb-2">Innovation</h3>
-              <p className="text-gray-600">We embrace new technologies and creative solutions to solve complex problems.</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <p className="text-gray-600">We embrace new technologies and creative solutions to solve complex problems for businesses in Rwanda and beyond.</p>
+            </article>
+            <article className="text-center">
+              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-[#1A2B4C] mb-2">Education</h3>
-              <p className="text-gray-600">Comprehensive tech education that prepares students for the global market.</p>
-            </div>
-            <div className="text-center">
-              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <h3 className="text-xl font-semibold text-[#1A2B4C] mb-2">Tech Education</h3>
+              <p className="text-gray-600">Comprehensive technology education that prepares Rwandan students for the global digital market and international opportunities.</p>
+            </article>
+            <article className="text-center">
+              <div className="bg-[#00A896] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" aria-hidden="true">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-[#1A2B4C] mb-2">Community</h3>
-              <p className="text-gray-600">Building stronger communities through technology and opportunity.</p>
-            </div>
+              <h3 className="text-xl font-semibold text-[#1A2B4C] mb-2">Community Building</h3>
+              <p className="text-gray-600">Building stronger communities through technology and opportunity, connecting Rwanda with global markets.</p>
+            </article>
           </div>
         </div>
       </section>
