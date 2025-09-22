@@ -8,6 +8,15 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  output: 'standalone',
+  swcMinify: true,
+  trailingSlash: false,
+  reactStrictMode: true,
+  poweredByHeader: false,
+  images: {
+    domains: ['localhost'],
+    unoptimized: process.env.NODE_ENV === 'production'
+  }
 }
 
 export default nextConfig
