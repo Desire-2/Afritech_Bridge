@@ -86,11 +86,16 @@
   "pnpm": {
     "overrides": {
       "react": "^19.0.0",
-      "react-dom": "^19.0.0"
+      "react-dom": "^19.0.0",
+      "cmdk": "^1.1.1"
     }
   },
   "resolutions": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "cmdk": "^1.1.1"
+  },
+  "overrides": {
+    "cmdk": "^1.1.1"
   }
 }
