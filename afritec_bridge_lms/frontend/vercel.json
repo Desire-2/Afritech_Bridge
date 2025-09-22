@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "npm run vercel-build",
+  "buildCommand": "chmod +x ./fix-deps-and-build.sh && ./fix-deps-and-build.sh",
   "devCommand": "npm run dev",
-  "installCommand": "npm install --legacy-peer-deps",
+  "installCommand": "echo 'Skipping install step, handled in build script'",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "headers": [
