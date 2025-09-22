@@ -8,7 +8,8 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "prebuild": "node -e \"console.log('Setting up legacy peer deps'); require('fs').writeFileSync('.npmrc', 'legacy-peer-deps=true\\nstrict-peer-dependencies=false\\nauto-install-peers=true\\nforce=true');\"",
+    "build": "npm run prebuild && next build",
     "start": "next start",
     "lint": "next lint",
     "build:worker": "opennextjs-cloudflare",

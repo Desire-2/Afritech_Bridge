@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "buildCommand": "chmod +x ./pre-build-fix.sh && ./pre-build-fix.sh && npm install --legacy-peer-deps --force && next build",
+  "buildCommand": "npm install --legacy-peer-deps --force && npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "echo 'Skipping install step, handled in build command'",
+  "installCommand": "npm install --legacy-peer-deps --force",
   "framework": "nextjs",
+  "outputDirectory": ".next",
   "headers": [
     {
       "source": "/(.*)",
