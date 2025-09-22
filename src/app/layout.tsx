@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Navigation from "@/components/Navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://afritechbridge.com'),
+  metadataBase: new URL('https://afritechbridge.online'),
   title: {
     default: 'AFritech Bridge - Rwanda Tech Education & Software Development',
     template: '%s | AFritech Bridge Rwanda'
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
     'tech bootcamp Rwanda'
   ],
   authors: [
-    { name: 'Desire Bikorimana', url: 'https://afritechbridge.com/about' }
+    { name: 'Desire Bikorimana', url: 'https://afritechbridge.online/about' }
   ],
   creator: 'AFritech Bridge',
   publisher: 'AFritech Bridge',
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://afritechbridge.com',
+    url: 'https://afritechbridge.online',
     siteName: 'AFritech Bridge',
     title: 'AFritech Bridge - Rwanda Tech Education & Software Development',
     description: 'Rwanda\'s premier technology company offering professional software development services and comprehensive tech education. Connect with global opportunities.',
@@ -101,7 +102,7 @@ export const metadata: Metadata = {
     yahoo: 'your-yahoo-verification-code',
   },
   alternates: {
-    canonical: 'https://afritechbridge.com',
+    canonical: 'https://afritechbridge.online',
   },
   category: 'technology',
 }
@@ -122,7 +123,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -134,7 +135,9 @@ export default function RootLayout({
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
+        <Navigation />
         {children}
       </body>
     </html>

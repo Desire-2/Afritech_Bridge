@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   output: 'standalone',
-  swcMinify: true,
   trailingSlash: false,
   reactStrictMode: true,
   poweredByHeader: false,

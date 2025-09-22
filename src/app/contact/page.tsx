@@ -58,16 +58,7 @@ export default function Contact() {
       <nav className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Image
-                src="/images/logo.png"
-                alt="AFritech Bridge"
-                width={40}
-                height={40}
-                className="mr-3"
-              />
-              <span className="text-xl font-bold text-[#1A2B4C]">AFritech Bridge</span>
-            </div>
+            
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
@@ -292,7 +283,7 @@ export default function Contact() {
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">Can I learn online?</h3>
-              <p className="text-gray-600">Absolutely! We offer online, in-person, and hybrid learning options. Our online platform provides the same quality education as our in-person classes.</p>
+              <p className="text-gray-600">Absolutely! We offer online, in-person, and hybrid learning options. Our online platform provides the same quality education as our in-person classes. Access our <a href="https://study.afritechbridge.online" target="_blank" rel="noopener noreferrer" className="text-[#00A896] hover:underline font-medium">Learning Management System</a> for all course materials.</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">What are your software development rates?</h3>
@@ -361,6 +352,18 @@ export default function Contact() {
                 <li><Link href="/courses" className="hover:text-white transition-colors">Web Development</Link></li>
                 <li><Link href="/courses" className="hover:text-white transition-colors">Mobile Development</Link></li>
                 <li><Link href="/courses" className="hover:text-white transition-colors">Data Science</Link></li>
+                <li className="pt-2">
+                  <a 
+                    href="https://study.afritechbridge.online" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-3 py-1 rounded text-sm inline-flex items-center transition-colors">
+                    <span>Access LMS</span>
+                    <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div>

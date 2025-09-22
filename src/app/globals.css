@@ -3,11 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary: #1A2B4C;
+  --secondary: #00A896;
+  --accent: #FF7F50;
+  --accent-hover: #FF6B35;
+  --gray-light: #f3f4f6;
 }
 
-@theme inline {
+/* Theme variables */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -22,5 +31,102 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Responsive typography */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+}
+
+@media (max-width: 640px) {
+  h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+  }
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+  }
+  h3 {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Animation utilities */
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-in;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.5s ease-out;
+}
+
+.animate-scale {
+  animation: scale 0.3s ease-in-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in;
+}
+
+.animate-pulse-slow {
+  animation: pulseSlow 3s infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scale {
+  from { transform: scale(0.95); }
+  to { transform: scale(1); }
+}
+
+@keyframes pulseSlow {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(1deg); }
+  50% { transform: translateY(-10px) rotate(-1deg); }
+}
+
+/* Mobile menu animations */
+.mobile-menu-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.mobile-menu-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.mobile-menu-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.mobile-menu-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 300ms, transform 300ms;
 }

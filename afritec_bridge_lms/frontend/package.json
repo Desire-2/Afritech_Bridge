@@ -15,7 +15,7 @@
     "build:worker": "opennextjs-cloudflare",
     "preview": "opennextjs-cloudflare && wrangler dev",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts",
-    "vercel-build": "npm install --legacy-peer-deps && next build"
+    "vercel-build": "bash ./vercel-build.sh"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

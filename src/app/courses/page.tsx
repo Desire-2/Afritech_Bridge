@@ -8,16 +8,6 @@ export default function Courses() {
       <nav className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Image
-                src="/images/logo.png"
-                alt="AFritech Bridge"
-                width={40}
-                height={40}
-                className="mr-3"
-              />
-              <span className="text-xl font-bold text-[#1A2B4C]">AFritech Bridge</span>
-            </div>
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
@@ -372,6 +362,111 @@ export default function Courses() {
         </div>
       </section>
 
+      {/* Learning Management System */}
+      <section className="py-20 bg-gradient-to-br from-[#1A2B4C] to-[#00A896]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="text-white">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 animate-fadeIn">
+                Access Our Learning Management System
+              </h2>
+              <p className="text-xl text-gray-200 mb-8">
+                Enhance your learning experience with our comprehensive online learning platform. 
+                Access course materials, interactive lessons, quizzes, and track your progress from anywhere, anytime.
+              </p>
+              <div className="space-y-6">
+                <div className="flex items-start">
+                  <div className="bg-white text-[#00A896] w-10 h-10 rounded-full flex items-center justify-center mr-4 mt-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-lg mb-2">Comprehensive Course Library</h3>
+                    <p className="text-gray-200">Access our complete course library with detailed lessons, projects and resources</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="bg-white text-[#00A896] w-10 h-10 rounded-full flex items-center justify-center mr-4 mt-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-lg mb-2">Interactive Learning Experience</h3>
+                    <p className="text-gray-200">Engage with interactive exercises, quizzes, and code challenges</p>
+                  </div>
+                </div>
+                <div className="flex items-start">
+                  <div className="bg-white text-[#00A896] w-10 h-10 rounded-full flex items-center justify-center mr-4 mt-1">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="font-semibold text-white text-lg mb-2">Certified Learning Path</h3>
+                    <p className="text-gray-200">Earn certificates for completed courses and showcase your skills to employers</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-10">
+                <a href="https://study.afritechbridge.online" target="_blank" rel="noopener noreferrer" 
+                   className="bg-white hover:bg-gray-100 text-[#1A2B4C] px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 inline-flex items-center">
+                  Access LMS Platform
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-white p-6 rounded-lg shadow-xl transform rotate-1 hover:rotate-0 transition-transform">
+                <div className="bg-[#00A896] text-white p-4 rounded-t-lg">
+                  <div className="flex items-center">
+                    <div className="mr-2 flex space-x-1">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                    <div className="text-center w-full font-medium">study.afritechbridge.online</div>
+                  </div>
+                </div>
+                <div className="p-4">
+                  <div className="mb-6">
+                    <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="h-24 bg-gray-200 rounded flex items-center justify-center">
+                      <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <div className="h-24 bg-gray-200 rounded flex items-center justify-center">
+                      <svg className="w-10 h-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded w-full"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                    <div className="h-4 bg-gray-200 rounded w-4/6"></div>
+                  </div>
+                  <div className="mt-6 flex justify-between">
+                    <div className="h-8 bg-[#00A896] rounded w-1/4"></div>
+                    <div className="h-8 bg-[#FF7F50] rounded w-1/4"></div>
+                  </div>
+                </div>
+              </div>
+              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-[#FF7F50] rounded-full flex items-center justify-center text-white font-bold text-xl transform rotate-12 shadow-lg">
+                New!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Student Success Stories */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -494,6 +589,18 @@ export default function Courses() {
                 <li><Link href="/courses" className="hover:text-white transition-colors">Web Development</Link></li>
                 <li><Link href="/courses" className="hover:text-white transition-colors">Mobile Development</Link></li>
                 <li><Link href="/courses" className="hover:text-white transition-colors">Data Science</Link></li>
+                <li className="pt-2">
+                  <a 
+                    href="https://study.afritechbridge.online" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-3 py-1 rounded text-sm inline-flex items-center transition-colors">
+                    <span>Access LMS</span>
+                    <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                </li>
               </ul>
             </div>
             <div>
