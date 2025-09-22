@@ -1,0 +1,6 @@
+# Ignore everything except the frontend directory
+*
+!afritec_bridge_lms/
+!afritec_bridge_lms/frontend/
+!package.json
+!vercel.json
