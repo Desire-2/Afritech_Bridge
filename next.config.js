@@ -11,6 +11,9 @@ const nextConfig = {
     unoptimized: true
   },
   poweredByHeader: false,
+  experimental: {
+    appDir: true,
+  },
 }
 
 module.exports = nextConfig
