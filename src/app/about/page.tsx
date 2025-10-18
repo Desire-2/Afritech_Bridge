@@ -4,33 +4,6 @@ import Link from 'next/link'
 export default function About() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Home
-                </Link>
-                <Link href="/services" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Services
-                </Link>
-                <Link href="/courses" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Courses
-                </Link>
-                <Link href="/about" className="text-[#00A896] px-3 py-2 rounded-md text-sm font-medium">
-                  About
-                </Link>
-                <Link href="/contact" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#1A2B4C] to-[#00A896] text-white py-20">
@@ -55,7 +28,7 @@ export default function About() {
                 Our Story
               </h2>
               <p className="text-lg text-gray-600 mb-6">
-                Founded with a vision to bridge the gap between Rwanda's talented youth and global technology opportunities, AFritech Bridge has become a leading provider of software development services and tech education in Rwanda.
+                Founded with a vision to bridge the gap between Africa's talented youth and global technology opportunities, AFritech Bridge has become a leading provider of software development services and tech education in Africa.
               </p>
               <p className="text-lg text-gray-600 mb-6">
                 We believe that technology is the key to unlocking unlimited potential. Our journey began with a simple idea: to create a bridge that connects local talent with global opportunities, empowering young people to build successful careers in technology.
@@ -66,7 +39,7 @@ export default function About() {
             </div>
             <div>
               <Image
-                src="/images/hero_section.png"
+                src="/images/logo.png"
                 alt="Our story"
                 width={600}
                 height={400}

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: 'AFritech Bridge - Rwanda Tech Education & Software Development',
     template: '%s | AFritech Bridge Rwanda'
   },
-  description: 'Rwanda\'s premier technology company offering professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu. Connect with global opportunities.',
+  description: 'Rwanda\'s premier technology company offering professional software development services, the TalentSpher job portal, and comprehensive tech education in Kigali, Musanze, and Nyabihu. Connect with global opportunities.',
   keywords: [
     'Rwanda technology company',
     'software development Rwanda',
@@ -41,7 +41,11 @@ export const metadata: Metadata = {
     'React training Rwanda',
     'JavaScript courses',
     'Python programming',
-    'tech bootcamp Rwanda'
+    'tech bootcamp Rwanda',
+    'TalentSpher job portal',
+    'Rwanda jobs',
+    'African job portal',
+    'tech jobs Rwanda'
   ],
   authors: [
     { name: 'Desire Bikorimana', url: 'https://afritechbridge.online/about' }
@@ -132,6 +136,48 @@ export default function RootLayout({
         <meta name="geo.placename" content="Kigali, Rwanda" />
         <meta name="geo.position" content="-1.9441;30.0619" />
         <meta name="ICBM" content="-1.9441, 30.0619" />
+        {/* JSON-LD structured data for SEO */}
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "AFritech Bridge",
+          "url": "https://afritechbridge.online",
+          "logo": "https://afritechbridge.online/images/logo.png",
+          "sameAs": [
+            "https://twitter.com/afritechbridge",
+            "https://www.linkedin.com/company/afritechbridge/"
+          ],
+          "contactPoint": [{
+            "@type": "ContactPoint",
+            "telephone": "+250780784924",
+            "contactType": "customer service",
+            "areaServed": "RW",
+            "availableLanguage": ["en", "fr", "rw"]
+          }],
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Kigali",
+            "addressLocality": "Kigali",
+            "addressCountry": "RW"
+          },
+          "makesOffer": {
+            "@type": "Service",
+            "name": "TalentSpher Job Portal",
+            "url": "https://afritechbridge.online/talentspher",
+            "description": "TalentSpher is Afritech Bridge's job portal connecting African tech talent with global opportunities."
+          }
+        }) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "url": "https://afritechbridge.online",
+          "name": "AFritech Bridge",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://afritechbridge.online/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        }) }} />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

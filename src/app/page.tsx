@@ -3,15 +3,15 @@ import Link from 'next/link'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'AFritech Bridge - Connecting Rwanda Youth to Global Tech Opportunities',
-  description: 'AFritech Bridge offers professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu. We connect Rwanda youth with global technology opportunities.',
-  keywords: 'Rwanda technology, software development, tech education, programming courses, web development, mobile apps, Kigali tech company, Musanze programming, Nyabihu tech training, African tech talent, global opportunities, Desire Bikorimana',
+  title: 'AFritech Bridge - Connecting Africa Youth to Global Tech Opportunities',
+  description: 'AFritech Bridge offers professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu. We connect African youth with global technology opportunities.',
+  keywords: 'Africa technology, software development, tech education, programming courses, web development, mobile apps, Kigali tech company, Musanze programming, Nyabihu tech training, African tech talent, global opportunities, Desire Bikorimana',
   authors: [{ name: 'Desire Bikorimana', url: 'https://afritechbridge.online' }],
   creator: 'AFritech Bridge',
   publisher: 'AFritech Bridge',
   openGraph: {
-    title: 'AFritech Bridge - Connecting Rwanda Youth to Global Tech Opportunities',
-    description: 'Professional software development services and comprehensive tech education in Rwanda. Bridging youth to global opportunities.',
+    title: 'AFritech Bridge - Connecting Africa Youth to Global Tech Opportunities',
+    description: 'Professional software development services and comprehensive tech education in Africa. Bridging youth to global opportunities.',
     url: 'https://afritechbridge.online',
     siteName: 'AFritech Bridge',
     images: [
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         url: '/images/hero_section.png',
         width: 1200,
         height: 630,
-        alt: 'AFritech Bridge - Rwanda Tech Education and Development',
+        alt: 'AFritech Bridge - Africa Tech Education and Development',
       },
     ],
     locale: 'en_US',
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AFritech Bridge - Rwanda Tech Education & Development',
-    description: 'Connecting Rwanda youth to global tech opportunities through education and professional software development.',
+    title: 'AFritech Bridge - Africa Tech Education & Development',
+    description: 'Connecting Africa youth to global tech opportunities through education and professional software development.',
     images: ['/images/hero_section.png'],
   },
   robots: {
@@ -55,7 +55,7 @@ export default function Home() {
         "@type": "Organization",
         "@id": "https://afritechbridge.online/#organization",
         "name": "AFritech Bridge",
-        "alternateName": "AFritech Bridge Rwanda",
+        "alternateName": "AFritech Bridge Africa",
         "url": "https://afritechbridge.online",
         "logo": {
           "@type": "ImageObject",
@@ -63,7 +63,7 @@ export default function Home() {
           "width": 200,
           "height": 200
         },
-        "description": "Rwanda's premier technology company connecting youth with global opportunities through professional software development and tech education.",
+        "description": "Africa's premier technology company connecting youth with global opportunities through professional software development and tech education.",
         "founder": {
           "@type": "Person",
           "name": "Desire Bikorimana",
@@ -73,19 +73,19 @@ export default function Home() {
           {
             "@type": "PostalAddress",
             "addressLocality": "Kigali",
-            "addressCountry": "Rwanda",
+            "addressCountry": "Africa",
             "streetAddress": "Norrsken House"
           },
           {
             "@type": "PostalAddress",
             "addressLocality": "Musanze",
-            "addressCountry": "Rwanda",
+            "addressCountry": "Africa",
             "streetAddress": "Near Iness Ruhengeri"
           },
           {
             "@type": "PostalAddress",
             "addressLocality": "Nyabihu",
-            "addressCountry": "Rwanda",
+            "addressCountry": "Africa",
             "streetAddress": "Mukamira"
           }
         ],
@@ -105,7 +105,7 @@ export default function Home() {
         "@id": "https://afritechbridge.online/#website",
         "url": "https://afritechbridge.online",
         "name": "AFritech Bridge",
-        "description": "Professional software development and tech education in Rwanda",
+        "description": "Professional software development and tech education in Africa",
         "publisher": {
           "@id": "https://afritechbridge.online/#organization"
         },
@@ -118,11 +118,11 @@ export default function Home() {
       {
         "@type": "EducationalOrganization",
         "name": "AFritech Bridge",
-        "description": "Comprehensive technology education and training in Rwanda",
+        "description": "Comprehensive technology education and training in Africa",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Kigali, Musanze, Nyabihu",
-          "addressCountry": "Rwanda"
+          "addressCountry": "Africa"
         },
         "offers": [
           {
@@ -155,7 +155,7 @@ export default function Home() {
         "@type": "LocalBusiness",
         "name": "AFritech Bridge",
         "@id": "https://afritechbridge.online/#localbusiness",
-        "description": "Software development and technology education company in Rwanda",
+        "description": "Software development and technology education company in Africa",
         "priceRange": "$$",
         "telephone": "+250780784924",
         "email": "afritech.bridge@gmail.com",
@@ -164,7 +164,7 @@ export default function Home() {
             "@type": "PostalAddress",
             "streetAddress": "Norrsken House",
             "addressLocality": "Kigali",
-            "addressCountry": "Rwanda"
+            "addressCountry": "Africa"
           }
         ],
         "geo": {
@@ -193,7 +193,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="animate-fade-in">
               <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-                Bridging Rwanda's Youth to 
+                Bridging Africa's Youth to 
                 <span className="text-[#FF7F50]"> Global Tech Opportunities</span>
               </h2>
               <p className="text-lg md:text-xl mb-6 md:mb-8 text-gray-200 max-w-xl">
@@ -212,10 +212,10 @@ export default function Home() {
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[#FF7F50] to-[#00A896] rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
               <Image
                 src="/images/hero_section.png"
-                alt="Rwanda youth connecting with global technology opportunities through AFritech Bridge education"
-                width={600}
-                height={400}
-                className="rounded-lg shadow-2xl relative transform transition duration-500 hover:scale-[1.01] w-full h-auto"
+                alt="Africa youth connecting with global technology opportunities through AFritech Bridge education"
+                width={400}
+                height={200}
+                className="rounded-lg shadow-2xl relative transform transition duration-500 hover:scale-[1.01] w-full h-[500px]"
                 priority
               />
             </div>
@@ -229,11 +229,11 @@ export default function Home() {
           <div className="text-center mb-16">
             <span className="inline-block bg-[#00A896]/20 text-[#00A896] text-sm font-medium px-3 py-1 rounded-full mb-4">About Us</span>
             <h2 id="about-heading" className="text-3xl md:text-4xl font-bold text-[#1A2B4C] mb-4">
-              About AFritech Bridge - Rwanda's Premier Tech Company
+              About AFritech Bridge - Africa's Premier Tech Company
             </h2>
             <div className="w-20 h-1.5 bg-[#FF7F50] mx-auto mb-6 rounded-full"></div>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              AFritech Bridge is Rwanda's premier technology company, dedicated to connecting young talent with global opportunities through professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu.
+              AFritech Bridge is Africa's premier technology company, dedicated to connecting young talent with global opportunities through professional software development services and comprehensive tech education in Kigali, Musanze, and Nyabihu.
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -245,7 +245,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-[#1A2B4C] mb-3">Innovation</h3>
               <div className="w-12 h-1 bg-[#FF7F50] mx-auto mb-4 rounded-full"></div>
-              <p className="text-gray-600">We embrace new technologies and creative solutions to solve complex problems for businesses in Rwanda and beyond.</p>
+              <p className="text-gray-600">We embrace new technologies and creative solutions to solve complex problems for businesses in Africa and beyond.</p>
             </article>
             <article className="text-center bg-white p-6 rounded-xl shadow-md hover:shadow-xl transform transition-all duration-300 hover:-translate-y-2">
               <div className="bg-gradient-to-br from-[#00A896] to-[#00C2AE] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md" aria-hidden="true">
@@ -255,7 +255,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-[#1A2B4C] mb-3">Tech Education</h3>
               <div className="w-12 h-1 bg-[#FF7F50] mx-auto mb-4 rounded-full"></div>
-              <p className="text-gray-600">Comprehensive technology education that prepares Rwandan students for the global digital market and international opportunities.</p>
+              <p className="text-gray-600">Comprehensive technology education that prepares African students for the global digital market and international opportunities.</p>
             </article>
             <article className="text-center bg-white p-6 rounded-xl shadow-md hover:shadow-xl transform transition-all duration-300 hover:-translate-y-2">
               <div className="bg-gradient-to-br from-[#00A896] to-[#00C2AE] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md" aria-hidden="true">
@@ -265,7 +265,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-semibold text-[#1A2B4C] mb-3">Community Building</h3>
               <div className="w-12 h-1 bg-[#FF7F50] mx-auto mb-4 rounded-full"></div>
-              <p className="text-gray-600">Building stronger communities through technology and opportunity, connecting Rwanda with global markets.</p>
+              <p className="text-gray-600">Building stronger communities through technology and opportunity, connecting Africa with global markets.</p>
             </article>
           </div>
         </div>
@@ -467,7 +467,7 @@ export default function Home() {
                   </div>
                 </div>
                 <p className="text-lg text-gray-200 mb-6">
-                  Looking for tech job opportunities in Rwanda and beyond? Our job portal connects talented 
+                  Looking for tech job opportunities in Africa and beyond? Our job portal connects talented 
                   professionals with top employers in the technology sector. Whether you're a developer, 
                   designer, or tech specialist, find your next career move with us.
                 </p>
@@ -476,7 +476,7 @@ export default function Home() {
                     <svg className="w-5 h-5 mr-2 text-[#FF7F50]" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                     </svg>
-                    Latest tech positions in Rwanda and across Africa
+                    Latest tech positions in Africa and across Africa
                   </li>
                   <li className="flex items-center">
                     <svg className="w-5 h-5 mr-2 text-[#FF7F50]" fill="currentColor" viewBox="0 0 20 20">
@@ -522,7 +522,7 @@ export default function Home() {
                   <div className="divide-y">
                     <div className="p-4 hover:bg-gray-50 transition-colors">
                       <h4 className="font-semibold text-[#1A2B4C]">Full-stack Developer</h4>
-                      <p className="text-sm text-gray-600">Kigali, Rwanda • Full-time</p>
+                      <p className="text-sm text-gray-600">Kigali, Africa • Full-time</p>
                       <div className="flex items-center mt-2">
                         <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full">React</span>
                         <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full ml-2">Node.js</span>
@@ -538,7 +538,7 @@ export default function Home() {
                     </div>
                     <div className="p-4 hover:bg-gray-50 transition-colors">
                       <h4 className="font-semibold text-[#1A2B4C]">Python Developer</h4>
-                      <p className="text-sm text-gray-600">Musanze, Rwanda • Part-time</p>
+                      <p className="text-sm text-gray-600">Musanze, Africa • Part-time</p>
                       <div className="flex items-center mt-2">
                         <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full">Python</span>
                         <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full ml-2">Django</span>
@@ -696,7 +696,7 @@ export default function Home() {
                 <span className="text-xl font-bold">AFritech Bridge</span>
               </div>
               <p className="text-gray-400 mb-6">
-                Connecting Rwanda's youth with global technology opportunities through professional software development and comprehensive tech education.
+                Connecting Africa's youth with global technology opportunities through professional software development and comprehensive tech education.
               </p>
               <div className="flex space-x-4">
                 <a href="https://twitter.com/afritechbridge" target="_blank" rel="noreferrer" className="text-gray-400 hover:text-[#00A896] transition-colors">

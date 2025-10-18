@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cd afritec_bridge_lms/frontend && npm run dev",
-    "build": "cd afritec_bridge_lms/frontend && npm run build",
-    "start": "cd afritec_bridge_lms/frontend && npm run start",
-    "lint": "cd afritec_bridge_lms/frontend && npm run lint",
-    "vercel-build": "cd afritec_bridge_lms/frontend && bash ./vercel-build.sh"
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+    "vercel-build": "bash ./vercel-build.sh"
   },
   "dependencies": {
     "react": "19.1.0",

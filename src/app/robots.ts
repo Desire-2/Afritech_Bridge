@@ -11,6 +11,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/', '/admin/'],
       },
     ],
-    sitemap: 'https://afritechbridge.com/sitemap.xml',
+    sitemap: 'https://afritechbridge.online/sitemap.xml',
   }
 }

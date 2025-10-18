@@ -4,34 +4,6 @@ import Link from 'next/link'
 export default function Services() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Home
-                </Link>
-                <Link href="/services" className="text-[#00A896] px-3 py-2 rounded-md text-sm font-medium">
-                  Services
-                </Link>
-                <Link href="/courses" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Courses
-                </Link>
-                <Link href="/about" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  About
-                </Link>
-                <Link href="/contact" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
-
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#1A2B4C] to-[#00A896] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -139,7 +111,7 @@ export default function Services() {
               </div>
               <div>
                 <Image
-                  src="/images/services_section.png"
+                  src="/images/services_section2.png"
                   alt="Web development team"
                   width={600}
                   height={400}
@@ -152,7 +124,7 @@ export default function Services() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="order-2 lg:order-1">
                 <Image
-                  src="/images/services_section.png"
+                  src="/images/services_section3.png"
                   alt="Mobile app development"
                   width={600}
                   height={400}
@@ -245,7 +217,7 @@ export default function Services() {
               </div>
               <div>
                 <Image
-                  src="/images/services_section.png"
+                  src="/images/services_section4.png"
                   alt="Custom software development"
                   width={600}
                   height={400}

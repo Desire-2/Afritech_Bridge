@@ -4,32 +4,6 @@ import Link from 'next/link'
 export default function Courses() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Home
-                </Link>
-                <Link href="/services" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Services
-                </Link>
-                <Link href="/courses" className="text-[#00A896] px-3 py-2 rounded-md text-sm font-medium">
-                  Courses
-                </Link>
-                <Link href="/about" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  About
-                </Link>
-                <Link href="/contact" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#1A2B4C] to-[#00A896] text-white py-20">
@@ -90,7 +64,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 8-12 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -129,7 +103,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 12-16 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online/" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -168,7 +142,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 10-14 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online/" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -207,7 +181,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 14-18 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online/" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -246,7 +220,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 8-12 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online/" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -285,7 +259,7 @@ export default function Courses() {
                 <div className="text-sm text-gray-600 mb-4">
                   <span className="font-semibold">Duration:</span> 10-14 weeks
                 </div>
-                <Link href="/contact" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
+                <Link href="https://study.afritechbridge.online/" className="block w-full bg-[#00A896] hover:bg-[#008B7A] text-white text-center py-2 rounded-lg font-semibold transition-colors">
                   Enroll Now
                 </Link>
               </div>
@@ -544,7 +518,7 @@ export default function Courses() {
             Join thousands of students who have transformed their careers with our comprehensive tech courses.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
+            <Link href="https://study.afritechbridge.online/" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
               Enroll Today
             </Link>
             <Link href="/about" className="border-2 border-white text-white hover:bg-white hover:text-[#1A2B4C] px-8 py-3 rounded-lg font-semibold transition-colors">
