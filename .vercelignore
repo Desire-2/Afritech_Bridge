@@ -1,6 +1,16 @@
-# Ignore everything except the frontend directory
-*
-!afritec_bridge_lms/
-!afritec_bridge_lms/frontend/
-!package.json
-!vercel.json
+# Vercel ignore file - keep source files needed for Next.js builds
+# Avoid excluding the app source (src/, public/) so Vercel can build the site.
+
+# Common folders/files we don't need to upload
+node_modules
+.next
+.vscode
+.idea
+.DS_Store
+*.log
+coverage
+dist
+build
+
+# Keep package.json, vercel.json and all source code so the build can run
+# (do not negate patterns here unless you specifically want to include a subset)
