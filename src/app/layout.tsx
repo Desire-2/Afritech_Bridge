@@ -163,7 +163,7 @@ export default function RootLayout({
           "makesOffer": {
             "@type": "Service",
             "name": "TalentSpher Job Portal",
-            "url": "https://afritechbridge.online/talentspher",
+            "url": "https://jobs.afritechbridge.online",
             "description": "TalentSpher is Afritech Bridge's job portal connecting African tech talent with global opportunities."
           }
         }) }} />

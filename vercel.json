@@ -1,7 +1,4 @@
 {
-  "version": 2,
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/afritec_bridge_lms/frontend/$1" }
-  ],
-  "outputDirectory": "afritec_bridge_lms/frontend/.next"
+  "version": 2
+  
 }
