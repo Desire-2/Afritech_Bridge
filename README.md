@@ -16,6 +16,23 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact Form Email Setup
+
+The Contact Us form sends email through SMTP using the server route at `/api/contact`.
+Set these environment variables in your `.env` file:
+
+```bash
+SMTP_HOST=smtp.mail.yahoo.com
+SMTP_PORT=465
+SMTP_SECURE=true
+SMTP_USER=your_yahoo_email@yahoo.com
+SMTP_PASS=your_yahoo_app_password
+```
+
+Notes:
+- The recipient is fixed to `afritech.bridge@yahoo.com` in the API route.
+- For Yahoo Mail, use an App Password for `SMTP_PASS`.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.

@@ -346,7 +346,7 @@ export default function Services() {
               <h3 className="font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>Phone: 0780784924</li>
-                <li>Email: afritech.bridge@gmail.com</li>
+                <li>Email: afritech.bridge@yahoo.com</li>
                 <li>Kigali: Norrsken house</li>
                 <li>Musanze: near Iness Ruhengeri</li>
                 <li>Nyabihu: Mukamira</li>

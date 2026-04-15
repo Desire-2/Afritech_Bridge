@@ -2,9 +2,16 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+type ToastState = {
+  type: 'success' | 'error'
+  message: string
+} | null
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [toast, setToast] = useState<ToastState>(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -20,11 +27,24 @@ export default function Contact() {
     })
   }
 
+  useEffect(() => {
+    if (!toast) {
+      return
+    }
+
+    const timer = setTimeout(() => {
+      setToast(null)
+    }, 5000)
+
+    return () => clearTimeout(timer)
+  }, [toast])
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     
     try {
-      const response = await fetch("https://ogh5izce5wdo.manus.space/api/send-email", {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,8 +54,11 @@ export default function Contact() {
       
       const result = await response.json()
       
-      if (result.success) {
-        alert('Thank you for your message! We will get back to you soon.')
+      if (response.ok && result.success) {
+        setToast({
+          type: 'success',
+          message: 'Message delivered. Thank you for reaching out. Our AFritech Bridge team will respond within 24 hours.',
+        })
         setFormData({
           name: '',
           email: '',
@@ -44,43 +67,40 @@ export default function Contact() {
           message: ''
         })
       } else {
-        alert('Sorry, there was an error sending your message. Please try again or contact us directly.')
+        setToast({
+          type: 'error',
+          message: result.error || 'We could not send your message right now. Please try again or contact us directly.',
+        })
       }
     } catch (error) {
       console.error('Error sending message:', error)
-      alert('Sorry, there was an error sending your message. Please try again or contact us directly.')
+      setToast({
+        type: 'error',
+        message: 'Connection issue detected. Please try again in a moment or contact us directly.',
+      })
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-4">
-                <Link href="/" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Home
-                </Link>
-                <Link href="/services" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Services
-                </Link>
-                <Link href="/courses" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  Courses
-                </Link>
-                <Link href="/about" className="text-[#1A2B4C] hover:text-[#00A896] px-3 py-2 rounded-md text-sm font-medium transition-colors">
-                  About
-                </Link>
-                <Link href="/contact" className="text-[#00A896] px-3 py-2 rounded-md text-sm font-medium">
-                  Contact Us
-                </Link>
-              </div>
-            </div>
+      {toast && (
+        <div className="fixed top-6 right-6 z-50 max-w-md animate-fade-in">
+          <div
+            className={`rounded-xl border px-4 py-3 shadow-xl backdrop-blur-sm ${
+              toast.type === 'success'
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
+                : 'border-rose-200 bg-rose-50 text-rose-900'
+            }`}
+            role="status"
+            aria-live="polite"
+          >
+            <p className="text-sm font-semibold">{toast.type === 'success' ? 'Success' : 'Notice'}</p>
+            <p className="mt-1 text-sm leading-relaxed">{toast.message}</p>
           </div>
         </div>
-      </nav>
+      )}
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-[#1A2B4C] to-[#00A896] text-white py-20">
@@ -185,9 +205,10 @@ export default function Contact() {
                 </div>
                 <button
                   type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-[#FF7F50] hover:bg-[#FF6B35] text-white py-3 px-6 rounded-lg font-semibold transition-colors"
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
@@ -217,7 +238,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-[#1A2B4C] mb-2">Email</h3>
-                    <p className="text-gray-600">afritech.bridge@gmail.com</p>
+                    <p className="text-gray-600">afritech.bridge@yahoo.com</p>
                     <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
                   </div>
                 </div>
@@ -370,7 +391,7 @@ export default function Contact() {
               <h3 className="font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>Phone: 0780784924</li>
-                <li>Email: afritech.bridge@gmail.com</li>
+                <li>Email: afritech.bridge@yahoo.com</li>
                 <li>Kigali: Norrsken house</li>
                 <li>Musanze: near Iness Ruhengeri</li>
                 <li>Nyabihu: Mukamira</li>

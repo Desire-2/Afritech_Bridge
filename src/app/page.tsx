@@ -96,7 +96,7 @@ export default async function Home() {
           "@type": "ContactPoint",
           "telephone": "+250780784924",
           "contactType": "customer service",
-          "email": "afritech.bridge@gmail.com"
+          "email": "afritech.bridge@yahoo.com"
         },
         "sameAs": [
           "https://linkedin.com/company/afritech-bridge",
@@ -161,7 +161,7 @@ export default async function Home() {
         "description": "Software development and technology education company in Africa",
         "priceRange": "$$",
         "telephone": "+250780784924",
-        "email": "afritech.bridge@gmail.com",
+        "email": "afritech.bridge@yahoo.com",
         "address": [
           {
             "@type": "PostalAddress",
@@ -674,7 +674,7 @@ export default async function Home() {
                 </svg>
               </div>
               <h3 className="font-semibold mb-2 text-lg">Email</h3>
-              <p className="text-gray-300">afritech.bridge@gmail.com</p>
+              <p className="text-gray-300">afritech.bridge@yahoo.com</p>
             </div>
             <div className="bg-white/5 backdrop-blur-sm p-6 rounded-lg hover:bg-white/10 transition-all hover:shadow-lg transform hover:scale-105">
               <div className="w-12 h-12 bg-[#1A2B4C] border-2 border-[#FF7F50] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -794,7 +794,7 @@ export default async function Home() {
                   <svg className="w-5 h-5 mr-3 mt-1 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span>afritech.bridge@gmail.com</span>
+                  <span>afritech.bridge@yahoo.com</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 mr-3 mt-1 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
