@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Metadata } from 'next'
+import apiService from '@/lib/apiService'
 
 export const metadata: Metadata = {
   title: 'AFritech Bridge - Connecting Africa Youth to Global Tech Opportunities',
@@ -47,7 +48,9 @@ export const metadata: Metadata = {
   },
 }
 
-export default function Home() {
+export default async function Home() {
+  const featuredJobs = await apiService.getPublicFeaturedJobs(3)
+
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -520,30 +523,38 @@ export default function Home() {
                     <h3 className="text-white font-bold text-lg">Featured Positions</h3>
                   </div>
                   <div className="divide-y">
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <h4 className="font-semibold text-[#1A2B4C]">Full-stack Developer</h4>
-                      <p className="text-sm text-gray-600">Kigali, Africa • Full-time</p>
-                      <div className="flex items-center mt-2">
-                        <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full">React</span>
-                        <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full ml-2">Node.js</span>
+                    {featuredJobs.length > 0 ? (
+                      featuredJobs.map((job, index) => (
+                        <a
+                          key={job.id}
+                          href={job.detailsUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="block p-4 hover:bg-gray-50 transition-colors"
+                        >
+                          <h4 className="font-semibold text-[#1A2B4C]">{job.title}</h4>
+                          <p className="text-sm text-gray-600">{job.location} • {job.employmentType}</p>
+                          <div className="flex items-center mt-2 flex-wrap gap-2">
+                            {job.tags.map((tag) => (
+                              <span
+                                key={`${job.id}-${tag}`}
+                                className={`text-xs px-2 py-1 rounded-full ${
+                                  index % 2 === 0
+                                    ? 'bg-[#00A896]/10 text-[#00A896]'
+                                    : 'bg-[#FF7F50]/10 text-[#FF7F50]'
+                                }`}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </a>
+                      ))
+                    ) : (
+                      <div className="p-4 text-sm text-gray-600">
+                        Featured jobs are loading. Visit our jobs portal to browse all current openings.
                       </div>
-                    </div>
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <h4 className="font-semibold text-[#1A2B4C]">UI/UX Designer</h4>
-                      <p className="text-sm text-gray-600">Remote • Contract</p>
-                      <div className="flex items-center mt-2">
-                        <span className="bg-[#FF7F50]/10 text-[#FF7F50] text-xs px-2 py-1 rounded-full">Figma</span>
-                        <span className="bg-[#FF7F50]/10 text-[#FF7F50] text-xs px-2 py-1 rounded-full ml-2">UI/UX</span>
-                      </div>
-                    </div>
-                    <div className="p-4 hover:bg-gray-50 transition-colors">
-                      <h4 className="font-semibold text-[#1A2B4C]">Python Developer</h4>
-                      <p className="text-sm text-gray-600">Musanze, Africa • Part-time</p>
-                      <div className="flex items-center mt-2">
-                        <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full">Python</span>
-                        <span className="bg-[#00A896]/10 text-[#00A896] text-xs px-2 py-1 rounded-full ml-2">Django</span>
-                      </div>
-                    </div>
+                    )}
                   </div>
                   <div className="bg-gray-50 p-4 text-center">
                     <a 
@@ -654,7 +665,7 @@ export default function Home() {
                 </svg>
               </div>
               <h3 className="font-semibold mb-2 text-lg">Phone</h3>
-              <p className="text-gray-300">0780784924</p>
+              <p className="text-gray-300">+250 780 784 924</p>
             </div>
             <div className="bg-white/5 backdrop-blur-sm p-6 rounded-lg hover:bg-white/10 transition-all hover:shadow-lg transform hover:scale-105">
               <div className="w-12 h-12 bg-[#00A896] rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
@@ -777,7 +788,7 @@ export default function Home() {
                   <svg className="w-5 h-5 mr-3 mt-1 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  <span>0780784924</span>
+                  <span>+250 780 784 924</span>
                 </li>
                 <li className="flex items-start">
                   <svg className="w-5 h-5 mr-3 mt-1 text-[#FF7F50]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
