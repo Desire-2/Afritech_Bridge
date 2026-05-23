@@ -105,9 +105,7 @@ export const metadata: Metadata = {
   },
   manifest: '/site.webmanifest',
   verification: {
-    google: 'your-google-verification-code',
-    yandex: 'your-yandex-verification-code',
-    yahoo: 'your-yahoo-verification-code',
+    google: 'BotherSomeValue', // TODO: Add your actual Google Search Console verification code
   },
   alternates: {
     canonical: 'https://afritechbridge.online',

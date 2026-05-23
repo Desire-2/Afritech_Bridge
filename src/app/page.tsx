@@ -43,9 +43,7 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  verification: {
-    google: 'your-google-verification-code',
-  },
+  // Verification handled in root layout
 }
 
 export default async function Home() {
