@@ -3,11 +3,10 @@ import { InternshipTrack, InternshipCohort, SubmissionResponse, ApplicationStatu
 
 const apiBaseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://study.afritechbridge.online';
 
+// Axios auto-detects the correct Content-Type based on the request data
+// (application/json for objects, multipart/form-data for FormData, etc.)
 const apiClient: AxiosInstance = axios.create({
   baseURL: apiBaseURL,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
 // Fallback tracks in case API fails
@@ -80,8 +79,25 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
 
 export const fetchTracks = async (): Promise<InternshipTrack[]> => {
   try {
-    const response = await apiClient.get<InternshipTrack[]>('/internships/tracks');
-    return response.data;
+    const response = await apiClient.get('/internships/tracks');
+    const data = response.data;
+
+    // Handle different response formats:
+    // 1. Bare array: [track, track, ...]
+    // 2. Wrapped: { data: [track, track, ...] }
+    // 3. Wrapped: { tracks: [track, track, ...] }
+    if (Array.isArray(data)) {
+      return data;
+    }
+    if (data?.data && Array.isArray(data.data)) {
+      return data.data;
+    }
+    if (data?.tracks && Array.isArray(data.tracks)) {
+      return data.tracks;
+    }
+
+    console.error('Unexpected tracks response format:', data);
+    return FALLBACK_TRACKS;
   } catch (error) {
     console.error('Failed to fetch tracks, using fallback:', error);
     return FALLBACK_TRACKS;
@@ -105,26 +121,65 @@ export const fetchOpenCohorts = async (trackSlug: string): Promise<InternshipCoh
 
 export const submitApplication = async (formData: FormData): Promise<SubmissionResponse> => {
   try {
+    // Axios has global defaults that set Content-Type: application/x-www-form-urlencoded
+    // for POST requests. We MUST explicitly override it to null so the browser
+    // auto-sets the correct multipart/form-data; boundary=... header.
+    // Without this, Flask/Werkzeug can't parse the multipart body.
     const response = await apiClient.post<SubmissionResponse>(
       '/internships/apply',
       formData,
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': null,
         },
       }
     );
     return response.data;
   } catch (error: any) {
+    console.error('Submit application error:', error);
+
+    // Handle 400/422 validation errors with detailed backend messages
+    if (error.response?.status === 400 || error.response?.status === 422) {
+      const responseData = error.response.data;
+
+      // Extract error messages from different backend response formats
+      let errorMessage = 'Validation failed. Please check your inputs.';
+
+      if (typeof responseData === 'string') {
+        errorMessage = responseData;
+      } else if (responseData?.message) {
+        errorMessage = responseData.message;
+      } else if (responseData?.errors) {
+        // Marshmallow/Flask validation errors format
+        const errors = responseData.errors;
+        if (typeof errors === 'object') {
+          errorMessage = Object.entries(errors)
+            .map(([field, msgs]) => `${field}: ${Array.isArray(msgs) ? msgs.join(', ') : msgs}`)
+            .join('; ');
+        } else {
+          errorMessage = String(errors);
+        }
+      } else if (Array.isArray(responseData)) {
+        errorMessage = responseData.map((e: any) => e.message || e).join('; ');
+      } else if (responseData?.error) {
+        errorMessage = responseData.error;
+      }
+
+      throw new Error(errorMessage);
+    }
+
     if (error.response?.status === 429) {
       throw new Error('Too many applications from this device. Please try again later.');
-    }
-    if (error.response?.status === 422) {
-      throw new Error('Validation error: ' + JSON.stringify(error.response.data));
     }
     if (error.response?.status === 500) {
       throw new Error('Server error. Please try again later.');
     }
+
+    // Network errors or unexpected errors
+    if (error.code === 'ERR_NETWORK') {
+      throw new Error('Cannot connect to the server. Please check your connection and try again.');
+    }
+
     throw error;
   }
 };

@@ -4,16 +4,7 @@ import { motion } from 'framer-motion';
 import { Controller } from 'react-hook-form';
 import { UseFormReturn } from 'react-hook-form';
 import { GlowInput } from '../ui/GlowInput';
-import { GlowSelect } from '../ui/GlowSelect';
 import { ApplicationFormData } from '@/types/internship';
-
-const rwandaDistricts = [
-  'Bugesera', 'Gatsibo', 'Kayonza', 'Kirehe', 'Ngoma', 'Nyagatare', 'Rwamagana',
-  'Bugesera', 'Gasabo', 'Kicukiro', 'Kigali City',
-  'Karongi', 'Nyamasheke', 'Nyaruguru', 'Nyungwe', 'Rutsiro', 'Rusizi', 'Rubavu',
-  'Gicumbi', 'Gisagara', 'Huye', 'Nyaruguru', 'Nyamagabe', 'Burundi',
-  'Gakenke', 'Kamonyi', 'Rwamagana', 'Rulindo', 'Bugesera'
-];
 
 interface PersonalInfoStepProps {
   control: any;
@@ -114,46 +105,8 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
           />
         </motion.div>
 
-        {/* Date of Birth */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="date_of_birth"
-            control={control}
-            render={({ field }) => (
-              <GlowInput
-                {...field}
-                label="Date of Birth"
-                type="date"
-                required
-                error={formState.errors.date_of_birth?.message}
-              />
-            )}
-          />
-        </motion.div>
-
-        {/* Gender */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="gender"
-            control={control}
-            render={({ field }) => (
-              <GlowSelect
-                {...field}
-                label="Gender"
-                required
-                options={[
-                  { value: 'male', label: 'Male' },
-                  { value: 'female', label: 'Female' },
-                  { value: 'prefer_not_to_say', label: 'Prefer not to say' },
-                ]}
-                error={formState.errors.gender?.message}
-              />
-            )}
-          />
-        </motion.div>
-
         {/* National ID */}
-        <motion.div variants={itemVariants}>
+        <motion.div variants={itemVariants} className="md:col-span-2">
           <Controller
             name="national_id"
             control={control}
@@ -163,39 +116,6 @@ export const PersonalInfoStep: React.FC<PersonalInfoStepProps> = ({
                 label="National ID (Optional)"
                 placeholder="1 XXXX X XXXXXXX X XX"
                 error={formState.errors.national_id?.message}
-              />
-            )}
-          />
-        </motion.div>
-
-        {/* District */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="district"
-            control={control}
-            render={({ field }) => (
-              <GlowSelect
-                {...field}
-                label="District"
-                required
-                options={rwandaDistricts.map(d => ({ value: d, label: d }))}
-                error={formState.errors.district?.message}
-              />
-            )}
-          />
-        </motion.div>
-
-        {/* Sector */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="sector"
-            control={control}
-            render={({ field }) => (
-              <GlowInput
-                {...field}
-                label="Sector (Optional)"
-                placeholder="e.g., Kigali, Muhanga"
-                error={formState.errors.sector?.message}
               />
             )}
           />

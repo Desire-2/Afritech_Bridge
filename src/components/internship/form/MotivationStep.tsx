@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { Controller } from 'react-hook-form';
 import { Lightbulb } from 'lucide-react';
 import { GlowTextarea } from '../ui/GlowTextarea';
-import { GlowSelect } from '../ui/GlowSelect';
 
 interface MotivationStepProps {
   control: any;
@@ -37,7 +36,6 @@ export const MotivationStep: React.FC<MotivationStepProps> = ({
   onBack,
 }) => {
   const motivationText = watch('motivation_letter') || '';
-  const goalsText = watch('goals_after') || '';
 
   return (
     <motion.div
@@ -86,49 +84,6 @@ export const MotivationStep: React.FC<MotivationStepProps> = ({
                 maxChars={1000}
                 charCount={motivationText.length}
                 error={formState.errors.motivation_letter?.message}
-              />
-            )}
-          />
-        </motion.div>
-
-        {/* Goals After */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="goals_after"
-            control={control}
-            render={({ field }) => (
-              <GlowTextarea
-                {...field}
-                label="What do you hope to achieve after this internship? (Optional)"
-                placeholder="Share your career goals and how this internship will help you reach them..."
-                maxChars={500}
-                charCount={goalsText.length}
-                error={formState.errors.goals_after?.message}
-              />
-            )}
-          />
-        </motion.div>
-
-        {/* How you heard about us */}
-        <motion.div variants={itemVariants}>
-          <Controller
-            name="heard_about"
-            control={control}
-            render={({ field }) => (
-              <GlowSelect
-                {...field}
-                label="How did you hear about AfriTech Bridge?"
-                required
-                options={[
-                  { value: 'social_media', label: 'Social Media' },
-                  { value: 'friend', label: 'Friend' },
-                  { value: 'website', label: 'AfriTech Website' },
-                  { value: 'school', label: 'School' },
-                  { value: 'linkedin', label: 'LinkedIn' },
-                  { value: 'event', label: 'Event' },
-                  { value: 'other', label: 'Other' },
-                ]}
-                error={formState.errors.heard_about?.message}
               />
             )}
           />

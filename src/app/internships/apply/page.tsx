@@ -30,9 +30,27 @@ export default function InternshipApplicationPage() {
     setSubmitError,
     referenceCode,
     setReferenceCode,
+    cvFile,
+    setCvFile,
   } = useInternshipForm();
 
   const { control, formState, watch, setValue, handleSubmit } = methods;
+
+  // Sync cv_file from react-hook-form to the cvFile state
+  // (cvFile state is the source of truth for the File object)
+  useEffect(() => {
+    const subscription = watch((value, { name }) => {
+      if (name === 'cv_file' || name === undefined) {
+        const file = value.cv_file;
+        if (file instanceof File) {
+          setCvFile(file);
+        } else {
+          setCvFile(null);
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch, setCvFile]);
 
   // Handle beforeunload for unsaved changes warning
   useEffect(() => {
@@ -55,24 +73,61 @@ export default function InternshipApplicationPage() {
       // Create FormData for multipart submission
       const formData = new FormData();
 
-      // Add all fields to FormData
-      Object.keys(data).forEach((key) => {
-        if (key === 'cv_file' && data[key]) {
-          formData.append('cv_file', data[key]);
-        } else if (key === 'skills_tags' && Array.isArray(data[key])) {
-          formData.append('skills_tags', JSON.stringify(data[key]));
-        } else if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-          formData.append(key, String(data[key]));
+      // --- CV FILE (backend expects field name 'cv', NOT 'cv_file') ---
+      const cvFileToSend = (
+        (cvFile instanceof File ? cvFile : null)
+        ?? (methods.getValues('cv_file') instanceof File ? methods.getValues('cv_file') : null)
+        ?? (data.cv_file instanceof File ? data.cv_file : null)
+      );
+
+      if (cvFileToSend) {
+        formData.append('cv', cvFileToSend);
+      }
+
+      // --- TRACK ID (stored in form state at selection time) ---
+      // Read ALL form values directly from form state at submit time
+      // (handleSubmit's 'data' parameter may not include unregistered fields)
+      const allValues = methods.getValues();
+
+      // track_id was saved in form state when the user selected the track
+      const trackId = allValues.track_id || data.track_id;
+      if (trackId) {
+        formData.append('track_id', trackId);
+      } else {
+        // Last resort fallback: send the slug directly
+        const trackSlug = allValues.track_slug || data.track_slug;
+        if (trackSlug) {
+          formData.append('track_id', trackSlug);
         }
+      }
+
+      // --- FORM TEXT FIELDS ---
+      const skipFields = new Set([
+        'track_slug',   // sent as track_id instead
+        'consent',      // UI-only field
+        'cv_file',      // sent as 'cv' above
+      ]);
+
+      // Build FormData from allValues (direct form state) with fallback to data
+      const sourceData = (Object.keys(allValues).length > 0 ? allValues : data) as Record<string, unknown>;
+
+      Object.keys(sourceData).forEach((key) => {
+        if (skipFields.has(key)) return;
+
+        const value = sourceData[key];
+        if (value === null || value === undefined || value === '') return;
+
+        formData.append(key, String(value));
       });
 
+      // Backend wraps response: {success, message, data: {reference_code, ...}}
       const response = await submitApplication(formData);
-      setReferenceCode(response.reference_code);
+      const refCode = response?.data?.reference_code ?? response?.reference_code ?? null;
+      setReferenceCode(refCode);
 
       // Clear form state from sessionStorage
       sessionStorage.removeItem('internship_form_state');
 
-      // Success toast
       toast.success('Application submitted successfully!');
     } catch (error: any) {
       const message = error.message || 'Failed to submit application. Please try again.';
@@ -125,7 +180,7 @@ export default function InternshipApplicationPage() {
           <StepIndicator
             currentStep={currentStep}
             totalSteps={6}
-            stepLabels={['Track', 'Personal', 'Background', 'Motivation', 'Documents', 'Review']}
+            stepLabels={['Track', 'Personal', 'Applicant', 'Motivation', 'Documents', 'Review']}
             onStepClick={jumpTo}
           />
 
@@ -159,7 +214,10 @@ export default function InternshipApplicationPage() {
                 <TrackSelector
                   key="track"
                   selectedTrack={watch('track_slug')}
-                  onTrackSelect={(slug) => setValue('track_slug', slug)}
+                  onTrackSelect={(slug, trackId) => {
+                    setValue('track_slug', slug);
+                    setValue('track_id', trackId);
+                  }}
                   onNext={goNext}
                 />
               )}
@@ -177,8 +235,6 @@ export default function InternshipApplicationPage() {
                   key="academic"
                   control={control}
                   formState={formState}
-                  watch={watch}
-                  setValue={setValue}
                   onNext={goNext}
                   onBack={goBack}
                 />

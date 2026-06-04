@@ -15,20 +15,23 @@ interface ReviewStepProps {
   isSubmitting: boolean;
 }
 
-const SectionHeader: React.FC<{ title: string; onClick: () => void; isExpanded: boolean }> =
-  ({ title, onClick, isExpanded }) => (
-    <button
-      onClick={onClick}
-      className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
-    >
-      <h3 className="text-lg font-semibold text-white">{title}</h3>
-      {isExpanded ? (
-        <ChevronUp className="w-5 h-5 text-teal-400" />
-      ) : (
-        <ChevronDown className="w-5 h-5 text-white/40" />
-      )}
-    </button>
-  );
+const SectionHeader: React.FC<{ title: string; onClick: () => void; isExpanded: boolean }> = ({
+  title,
+  onClick,
+  isExpanded,
+}) => (
+  <button
+    onClick={onClick}
+    className="w-full flex items-center justify-between p-4 bg-white/5 hover:bg-white/10 rounded-lg transition-colors"
+  >
+    <h3 className="text-lg font-semibold text-white">{title}</h3>
+    {isExpanded ? (
+      <ChevronUp className="w-5 h-5 text-teal-400" />
+    ) : (
+      <ChevronDown className="w-5 h-5 text-white/40" />
+    )}
+  </button>
+);
 
 const DataRow: React.FC<{ label: string; value: string | React.ReactNode }> = ({
   label,
@@ -51,7 +54,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
 }) => {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     personal: true,
-    background: true,
+    applicant: true,
     motivation: true,
     documents: false,
   });
@@ -63,16 +66,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
       ...prev,
       [section]: !prev[section],
     }));
-  };
-
-  const goToSection = (section: string) => {
-    const sectionSteps: Record<string, number> = {
-      personal: 1,
-      background: 2,
-      motivation: 3,
-      documents: 4,
-    };
-    onJumpTo(sectionSteps[section]);
   };
 
   return (
@@ -115,7 +108,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </motion.div>
 
         {/* Personal Information */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          className="p-6 rounded-lg bg-white/5 border border-white/10"
+        >
           <SectionHeader
             title="Personal Information"
             isExpanded={expandedSections.personal}
@@ -132,10 +128,9 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               <DataRow label="Full Name" value={formData.full_name} />
               <DataRow label="Email" value={formData.email} />
               <DataRow label="Phone" value={formData.phone} />
-              <DataRow label="Date of Birth" value={formData.date_of_birth} />
-              <DataRow label="Gender" value={formData.gender} />
-              <DataRow label="District" value={formData.district} />
-              {formData.sector && <DataRow label="Sector" value={formData.sector} />}
+              {formData.national_id && (
+                <DataRow label="National ID" value={formData.national_id} />
+              )}
               <button
                 onClick={() => onJumpTo(1)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
@@ -146,14 +141,17 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           )}
         </motion.div>
 
-        {/* Background */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
+        {/* Applicant Type */}
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          className="p-6 rounded-lg bg-white/5 border border-white/10"
+        >
           <SectionHeader
-            title="Academic Background"
-            isExpanded={expandedSections.background}
-            onClick={() => toggleSection('background')}
+            title="Applicant Type"
+            isExpanded={expandedSections.applicant}
+            onClick={() => toggleSection('applicant')}
           />
-          {expandedSections.background && (
+          {expandedSections.applicant && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -162,22 +160,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               className="mt-4 space-y-3 pt-4"
             >
               <DataRow label="Applicant Type" value={formData.applicant_type} />
-              <DataRow label="Institution" value={formData.institution} />
-              <DataRow label="Field of Study" value={formData.field_of_study} />
-              <DataRow label="Graduation Year" value={formData.graduation_year} />
-              <DataRow label="Experience Level" value={formData.experience_level} />
-              {formData.skills_tags?.length > 0 && (
-                <div className="py-3 border-b border-white/10">
-                  <p className="text-xs text-white/60 uppercase tracking-wide mb-2">Skills</p>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.skills_tags.map((skill: string, i: number) => (
-                      <span key={i} className="px-2 py-1 bg-teal-500/20 border border-teal-500/40 rounded-full text-xs text-teal-300">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
               <button
                 onClick={() => onJumpTo(2)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
@@ -189,7 +171,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </motion.div>
 
         {/* Motivation */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          className="p-6 rounded-lg bg-white/5 border border-white/10"
+        >
           <SectionHeader
             title="Motivation"
             isExpanded={expandedSections.motivation}
@@ -204,10 +189,13 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               className="mt-4 space-y-3 pt-4"
             >
               <div className="py-3 border-b border-white/10">
-                <p className="text-xs text-white/60 uppercase tracking-wide mb-1">Why AfriTech Bridge?</p>
-                <p className="text-white font-medium line-clamp-3">{formData.motivation_letter}</p>
+                <p className="text-xs text-white/60 uppercase tracking-wide mb-1">
+                  Why AfriTech Bridge?
+                </p>
+                <p className="text-white font-medium line-clamp-3">
+                  {formData.motivation_letter}
+                </p>
               </div>
-              <DataRow label="How did you hear about us?" value={formData.heard_about} />
               <button
                 onClick={() => onJumpTo(3)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
@@ -219,7 +207,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </motion.div>
 
         {/* Documents */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          className="p-6 rounded-lg bg-white/5 border border-white/10"
+        >
           <SectionHeader
             title="Documents"
             isExpanded={expandedSections.documents}
@@ -234,9 +225,13 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               className="mt-4 space-y-3 pt-4"
             >
               <DataRow label="CV" value={formData.cv_file?.name || 'No file'} />
-              {formData.portfolio_url && <DataRow label="Portfolio" value={formData.portfolio_url} />}
+              {formData.portfolio_url && (
+                <DataRow label="Portfolio" value={formData.portfolio_url} />
+              )}
               {formData.github_url && <DataRow label="GitHub" value={formData.github_url} />}
-              {formData.linkedin_url && <DataRow label="LinkedIn" value={formData.linkedin_url} />}
+              {formData.linkedin_url && (
+                <DataRow label="LinkedIn" value={formData.linkedin_url} />
+              )}
               <button
                 onClick={() => onJumpTo(4)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
@@ -248,7 +243,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
         </motion.div>
 
         {/* Consent Checkbox */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
+        <motion.div
+          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+          className="p-6 rounded-lg bg-white/5 border border-white/10"
+        >
           <Controller
             name="consent"
             control={control}

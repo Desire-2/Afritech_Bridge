@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApplicationFormData } from '@/types/internship';
 import {
@@ -47,24 +47,13 @@ export const useInternshipForm = () => {
     mode: 'onBlur',
     defaultValues: {
       track_slug: '',
+      track_id: '',
       full_name: '',
       email: '',
       phone: '',
       national_id: '',
-      date_of_birth: '',
-      gender: '',
-      district: '',
-      sector: '',
       applicant_type: '',
-      institution: '',
-      field_of_study: '',
-      graduation_year: '',
-      atb_course: '',
-      experience_level: '',
-      skills_tags: [],
       motivation_letter: '',
-      goals_after: '',
-      heard_about: '',
       portfolio_url: '',
       github_url: '',
       linkedin_url: '',
@@ -89,10 +78,19 @@ export const useInternshipForm = () => {
   // Save form state to session storage whenever it changes
   useEffect(() => {
     const subscription = methods.watch((data) => {
+      // Clone the form data and remove non-serializable values (e.g. File objects)
+      // File objects become {} when JSON.stringify'd, corrupting the saved state
+      const serializable: Record<string, unknown> = {};
+      for (const key of Object.keys(data)) {
+        const value = (data as Record<string, unknown>)[key];
+        if (value instanceof File || value instanceof Blob) continue;
+        serializable[key] = value;
+      }
+
       sessionStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
-          formData: data,
+          formData: serializable,
           step: currentStep,
         })
       );

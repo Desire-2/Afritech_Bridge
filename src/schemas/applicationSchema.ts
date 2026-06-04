@@ -1,57 +1,31 @@
 import { z } from 'zod';
 
-const currentYear = new Date().getFullYear();
-
 // Step 1: Track Selection
 export const step1Schema = z.object({
   track_slug: z.string().min(1, 'Please select a track'),
 });
 
-// Step 2: Personal Information
+// Step 2: Personal Information (only fields that exist in backend model)
 export const step2Schema = z.object({
   full_name: z.string().min(3, 'Name must be at least 3 characters'),
   email: z.string().email('Invalid email address'),
   phone: z.string().min(8, 'Invalid phone number'),
   national_id: z.string().optional(),
-  date_of_birth: z.string().refine((date) => {
-    const birthDate = new Date(date);
-    const today = new Date();
-    const age = today.getFullYear() - birthDate.getFullYear();
-    return age >= 16 && age <= 35;
-  }, 'You must be between 16 and 35 years old'),
-  gender: z.enum(['male', 'female', 'prefer_not_to_say'], {
-    errorMap: () => ({ message: 'Please select a gender' }),
-  }),
-  district: z.string().min(1, 'Please select a district'),
-  sector: z.string().optional(),
 });
 
-// Step 3: Academic Background
+// Step 3: Applicant Type (backend enum: graduate / short_course_alumni / external)
 export const step3Schema = z.object({
-  applicant_type: z.enum(['recent_graduate', 'short_course', 'self_taught'], {
+  applicant_type: z.enum(['graduate', 'short_course_alumni', 'external'], {
     errorMap: () => ({ message: 'Please select an applicant type' }),
   }),
-  institution: z.string().min(2, 'Please enter institution name'),
-  field_of_study: z.string().min(2, 'Please enter field of study'),
-  graduation_year: z.string().refine((year) => {
-    const parsedYear = parseInt(year);
-    return parsedYear >= 2018 && parsedYear <= currentYear;
-  }, `Graduation year must be between 2018 and ${currentYear}`),
-  atb_course: z.string().optional(),
-  experience_level: z.enum(['beginner', 'intermediate', 'advanced'], {
-    errorMap: () => ({ message: 'Please select experience level' }),
-  }),
-  skills_tags: z.array(z.string()).max(10, 'Maximum 10 skills allowed'),
 });
 
-// Step 4: Motivation
+// Step 4: Motivation (only motivation_letter exists in backend)
 export const step4Schema = z.object({
   motivation_letter: z
     .string()
     .min(100, 'Motivation letter must be at least 100 characters')
-    .max(1000, 'Motivation letter must not exceed 1000 characters'),
-  goals_after: z.string().max(500, 'Goals must not exceed 500 characters').optional(),
-  heard_about: z.string().min(1, 'Please select how you heard about us'),
+    .max(5000, 'Motivation letter must not exceed 5000 characters'),
 });
 
 // Step 5: Documents

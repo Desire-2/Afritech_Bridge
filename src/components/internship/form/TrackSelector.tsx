@@ -9,7 +9,7 @@ import { InternshipTrack } from '@/types/internship';
 
 interface TrackSelectorProps {
   selectedTrack: string;
-  onTrackSelect: (slug: string) => void;
+  onTrackSelect: (slug: string, trackId: string) => void;
   onNext: () => void;
 }
 
@@ -142,7 +142,7 @@ export const TrackSelector: React.FC<TrackSelectorProps> = ({
               key={track.slug}
               track={track}
               isSelected={selectedTrack === track.slug}
-              onClick={() => onTrackSelect(track.slug)}
+              onClick={() => onTrackSelect(track.slug, track.id)}
               index={index}
             />
           ))}
