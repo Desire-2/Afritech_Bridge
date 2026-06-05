@@ -489,6 +489,13 @@ html {
   background: #00A6B8;
 }
 
+.eyebrow-label-light {
+  color: #7FE0EB;
+}
+.eyebrow-label-light::before {
+  background: #7FE0EB;
+}
+
 /* ---- Pattern Overlay (circuit/dots) ---- */
 .pattern-grid {
   background-image:

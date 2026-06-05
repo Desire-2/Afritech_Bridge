@@ -63,7 +63,7 @@ export default function Services() {
 
         <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center max-w-4xl mx-auto">
-            <span className="eyebrow-label justify-center mb-6">Our Services</span>
+            <span className="eyebrow-label eyebrow-label-light justify-center mb-6">Our Services</span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight font-['Syne',sans-serif]">
               Professional<br />
               <span className="brand-gradient-text">Software Development</span><br />
@@ -92,8 +92,8 @@ export default function Services() {
           </div>
         </div>
 
-        {/* Bottom fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+        {/* Bottom fade - blend with hero bg instead of white to avoid washing out text */}
+        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#003A7A] to-transparent" />
       </section>
 
       {/* ===== INTERNSHIP PROGRAMS (MOVED TO TOP) ===== */}
