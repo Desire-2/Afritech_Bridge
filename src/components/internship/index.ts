@@ -6,9 +6,7 @@ export { Header } from './layout/Header';
 export { StepIndicator } from './form/StepIndicator';
 export { TrackSelector } from './form/TrackSelector';
 export { PersonalInfoStep } from './form/PersonalInfoStep';
-export { AcademicStep } from './form/AcademicStep';
-export { MotivationStep } from './form/MotivationStep';
-export { DocumentsStep } from './form/DocumentsStep';
+export { MotivationDocumentsStep } from './form/MotivationDocumentsStep';
 export { ReviewStep } from './form/ReviewStep';
 
 // UI Components

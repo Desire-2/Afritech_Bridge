@@ -42,6 +42,12 @@ const DataRow: React.FC<{ label: string; value: string | React.ReactNode }> = ({
   </div>
 );
 
+const applicantTypeLabels: Record<string, string> = {
+  graduate: 'Graduate',
+  short_course_alumni: 'Short Course Alumni',
+  external: 'External Applicant',
+};
+
 export const ReviewStep: React.FC<ReviewStepProps> = ({
   control,
   formState,
@@ -54,9 +60,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
 }) => {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     personal: true,
-    background: true,
-    motivation: true,
-    documents: false,
+    motivation: false,
+    applicant: true,
   });
 
   const formData = watch();
@@ -67,16 +72,6 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
       ...prev,
       [section]: !prev[section],
     }));
-  };
-
-  const goToSection = (section: string) => {
-    const sectionSteps: Record<string, number> = {
-      personal: 1,
-      background: 2,
-      motivation: 3,
-      documents: 4,
-    };
-    onJumpTo(sectionSteps[section]);
   };
 
   return (
@@ -136,9 +131,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               <DataRow label="Full Name" value={formData.full_name} />
               <DataRow label="Email" value={formData.email} />
               <DataRow label="Phone" value={formData.phone} />
-              <DataRow label="Date of Birth" value={formData.date_of_birth} />
-              <DataRow label="Gender" value={formData.gender} />
-              <DataRow label="District" value={formData.district} />
+              {formData.national_id && <DataRow label="National ID" value={formData.national_id} />}
               <button
                 onClick={() => onJumpTo(1)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
@@ -149,52 +142,10 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           )}
         </motion.div>
 
-        {/* Background */}
+        {/* Motivation & Documents */}
         <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
           <SectionHeader
-            title="Academic Background"
-            isExpanded={expandedSections.background}
-            onClick={() => toggleSection('background')}
-          />
-          {expandedSections.background && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mt-4 space-y-3 pt-4"
-            >
-              <DataRow label="Applicant Type" value={formData.applicant_type} />
-              <DataRow label="Institution" value={formData.institution} />
-              <DataRow label="Field of Study" value={formData.field_of_study} />
-              <DataRow label="Graduation Year" value={formData.graduation_year} />
-              <DataRow label="Experience Level" value={formData.experience_level} />
-              {formData.skills_tags?.length > 0 && (
-                <div className="py-3 border-b border-white/10">
-                  <p className="text-xs text-white/60 uppercase tracking-wide mb-2">Skills</p>
-                  <div className="flex flex-wrap gap-2">
-                    {formData.skills_tags.map((skill: string, i: number) => (
-                      <span key={i} className="px-2 py-1 bg-teal-500/20 border border-teal-500/40 rounded-full text-xs text-teal-300">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              <button
-                onClick={() => onJumpTo(2)}
-                className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
-              >
-                <Edit2 className="w-4 h-4" /> Edit
-              </button>
-            </motion.div>
-          )}
-        </motion.div>
-
-        {/* Motivation */}
-        <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
-          <SectionHeader
-            title="Motivation"
+            title="Motivation & Documents"
             isExpanded={expandedSections.motivation}
             onClick={() => toggleSection('motivation')}
           />
@@ -207,11 +158,15 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               className="mt-4 space-y-3 pt-4"
             >
               <div className="py-3 border-b border-white/10">
-                <p className="text-xs text-white/60 uppercase tracking-wide mb-1">Why AfriTech Bridge?</p>
+                <p className="text-xs text-white/60 uppercase tracking-wide mb-1">Motivation Letter</p>
                 <p className="text-white font-medium line-clamp-3">{formData.motivation_letter}</p>
               </div>
+              <DataRow label="CV" value={formData.cv_file?.name || 'No file uploaded'} />
+              {formData.portfolio_url && <DataRow label="Portfolio" value={formData.portfolio_url} />}
+              {formData.github_url && <DataRow label="GitHub" value={formData.github_url} />}
+              {formData.linkedin_url && <DataRow label="LinkedIn" value={formData.linkedin_url} />}
               <button
-                onClick={() => onJumpTo(3)}
+                onClick={() => onJumpTo(2)}
                 className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
               >
                 <Edit2 className="w-4 h-4" /> Edit
@@ -220,14 +175,14 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           )}
         </motion.div>
 
-        {/* Documents */}
+        {/* Applicant Type */}
         <motion.div variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="p-6 rounded-lg bg-white/5 border border-white/10">
           <SectionHeader
-            title="Documents"
-            isExpanded={expandedSections.documents}
-            onClick={() => toggleSection('documents')}
+            title="Applicant Type"
+            isExpanded={expandedSections.applicant}
+            onClick={() => toggleSection('applicant')}
           />
-          {expandedSections.documents && (
+          {expandedSections.applicant && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
@@ -235,16 +190,35 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
               transition={{ duration: 0.3 }}
               className="mt-4 space-y-3 pt-4"
             >
-              <DataRow label="CV" value={formData.cv_file?.name || 'No file'} />
-              {formData.portfolio_url && <DataRow label="Portfolio" value={formData.portfolio_url} />}
-              {formData.github_url && <DataRow label="GitHub" value={formData.github_url} />}
-              {formData.linkedin_url && <DataRow label="LinkedIn" value={formData.linkedin_url} />}
-              <button
-                onClick={() => onJumpTo(4)}
-                className="mt-4 text-teal-400 hover:text-teal-300 text-sm font-semibold flex items-center gap-2"
-              >
-                <Edit2 className="w-4 h-4" /> Edit
-              </button>
+              <Controller
+                name="applicant_type"
+                control={control}
+                render={({ field }) => (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    {[
+                      { value: 'graduate', label: 'Graduate' },
+                      { value: 'short_course_alumni', label: 'Short Course Alumni' },
+                      { value: 'external', label: 'External Applicant' },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => field.onChange(option.value)}
+                        className={`p-4 rounded-lg border-2 transition-all text-left ${
+                          field.value === option.value
+                            ? 'border-teal-500 bg-teal-500/10'
+                            : 'border-white/20 bg-white/5 hover:border-white/40'
+                        }`}
+                      >
+                        <p className="font-semibold text-white">{option.label}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              />
+              {formState.errors.applicant_type && (
+                <p className="mt-2 text-xs text-red-400">{formState.errors.applicant_type.message}</p>
+              )}
             </motion.div>
           )}
         </motion.div>

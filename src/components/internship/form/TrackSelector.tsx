@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { Loader } from 'lucide-react';
-import { Controller } from 'react-hook-form';
 import { TrackCard } from '../ui/TrackCard';
 import { InternshipTrack } from '@/types/internship';
 
@@ -20,64 +19,64 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     slug: 'mobile',
     name: 'Mobile Development',
     description: 'Build iOS and Android applications',
-    icon: 'Smartphone',
-    isOpen: true,
+    icon_key: 'Smartphone',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000002',
     slug: 'frontend',
     name: 'Frontend Development',
     description: 'Create beautiful user interfaces',
-    icon: 'Monitor',
-    isOpen: true,
+    icon_key: 'Monitor',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000003',
     slug: 'backend',
     name: 'Backend Development',
     description: 'Build robust server infrastructure',
-    icon: 'Server',
-    isOpen: true,
+    icon_key: 'Server',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000004',
     slug: 'fullstack',
     name: 'Full Stack Development',
     description: 'Master front and back end',
-    icon: 'Layers',
-    isOpen: true,
+    icon_key: 'Layers',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000005',
     slug: 'data',
     name: 'Data Science',
     description: 'Analyze and visualize data',
-    icon: 'BarChart3',
-    isOpen: true,
+    icon_key: 'BarChart3',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000006',
     slug: 'design',
     name: 'UI/UX Design',
     description: 'Design user experiences',
-    icon: 'Palette',
-    isOpen: true,
+    icon_key: 'Palette',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000007',
     slug: 'devops',
     name: 'DevOps Engineering',
     description: 'Manage cloud infrastructure',
-    icon: 'Cloud',
-    isOpen: true,
+    icon_key: 'Cloud',
+    is_active: true,
   },
   {
     id: '00000000-0000-0000-0000-000000000008',
     slug: 'other',
     name: 'Other',
     description: 'Other areas',
-    icon: 'Sparkles',
-    isOpen: true,
+    icon_key: 'Sparkles',
+    is_active: true,
   },
 ];
 

@@ -3,17 +3,23 @@ export interface InternshipTrack {
   slug: string;
   name: string;
   description: string;
-  icon: string;
-  isOpen: boolean;
+  icon_key: string;
+  is_active: boolean;
 }
 
 export interface InternshipCohort {
   id: string;
   track_id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
-  spotsAvailable: number;
+  cohort_name: string;
+  cohort_code: string;
+  start_date: string;
+  end_date: string;
+  capacity: number | null;
+  is_accepting: boolean;
+  accepted_count: number;
+  spots_available: number | null;
+  is_full: boolean;
+  description: string | null;
 }
 
 export interface ApplicationFormData {
@@ -24,34 +30,27 @@ export interface ApplicationFormData {
   full_name: string;
   email: string;
   phone: string;
-  date_of_birth: string;
-  gender: string;
-  district: string;
+  national_id: string;
 
-  // Step 3: Academic Background
-  applicant_type: string;
-  institution: string;
-  field_of_study: string;
-  graduation_year: string;
-  experience_level: string;
-  skills_tags: string[];
-
-  // Step 4: Motivation
+  // Step 3: Motivation & Documents
   motivation_letter: string;
-
-  // Step 5: Documents
+  portfolio_url: string;
+  github_url: string;
+  linkedin_url: string;
   cv_file?: File;
-  portfolio_url?: string;
-  github_url?: string;
-  linkedin_url?: string;
 
-  // Step 6: Review & Consent
+  // Step 4: Review & Consent
+  applicant_type: string;
   consent: boolean;
 }
 
 export interface SubmissionResponse {
   success: boolean;
-  reference_code: string;
+  data?: {
+    reference_code: string;
+    message: string;
+  };
+  reference_code?: string;
   message: string;
 }
 
@@ -59,4 +58,9 @@ export interface ApplicationStatus {
   status: string;
   submittedAt: string;
   review_stage: string;
+  full_name: string;
+  email: string;
+  reference_code: string;
+  track_name: string;
+  updated_at: string;
 }

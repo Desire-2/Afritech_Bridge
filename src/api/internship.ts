@@ -17,77 +17,80 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     slug: 'mobile',
     name: 'Mobile Development',
     description: 'Build iOS and Android applications',
-    icon: 'Smartphone',
-    isOpen: true,
+    icon_key: 'Smartphone',
+    is_active: true,
   },
   {
     id: '2',
     slug: 'frontend',
     name: 'Frontend Development',
     description: 'Create beautiful user interfaces',
-    icon: 'Monitor',
-    isOpen: true,
+    icon_key: 'Monitor',
+    is_active: true,
   },
   {
     id: '3',
     slug: 'backend',
     name: 'Backend Development',
     description: 'Build robust server infrastructure',
-    icon: 'Server',
-    isOpen: true,
+    icon_key: 'Server',
+    is_active: true,
   },
   {
     id: '4',
     slug: 'fullstack',
     name: 'Full Stack Development',
     description: 'Master front and back end',
-    icon: 'Layers',
-    isOpen: true,
+    icon_key: 'Layers',
+    is_active: true,
   },
   {
     id: '5',
     slug: 'data',
     name: 'Data Science',
     description: 'Analyze and visualize data',
-    icon: 'BarChart3',
-    isOpen: true,
+    icon_key: 'BarChart3',
+    is_active: true,
   },
   {
     id: '6',
     slug: 'design',
     name: 'UI/UX Design',
     description: 'Design user experiences',
-    icon: 'Palette',
-    isOpen: true,
+    icon_key: 'Palette',
+    is_active: true,
   },
   {
     id: '7',
     slug: 'devops',
     name: 'DevOps Engineering',
     description: 'Manage cloud infrastructure',
-    icon: 'Cloud',
-    isOpen: true,
+    icon_key: 'Cloud',
+    is_active: true,
   },
   {
     id: '8',
     slug: 'other',
     name: 'Other',
     description: 'Other areas',
-    icon: 'Sparkles',
-    isOpen: true,
+    icon_key: 'Sparkles',
+    is_active: true,
   },
 ];
 
 export const fetchTracks = async (): Promise<InternshipTrack[]> => {
   try {
     const response = await apiClient.get('/internships/tracks');
-    // Handle both direct array and wrapped object responses
-    const data = response.data;
-    if (Array.isArray(data)) {
-      return data;
+    // Backend wraps in { success: true, data: [...] }
+    const body = response.data;
+    if (body?.success && Array.isArray(body.data)) {
+      return body.data;
     }
-    if (data && typeof data === 'object' && 'tracks' in data && Array.isArray(data.tracks)) {
-      return data.tracks;
+    if (Array.isArray(body)) {
+      return body;
+    }
+    if (body && typeof body === 'object' && 'tracks' in body && Array.isArray(body.tracks)) {
+      return body.tracks;
     }
     console.warn('Unexpected API response format, using fallback');
     return FALLBACK_TRACKS;
@@ -102,13 +105,15 @@ export const fetchOpenCohorts = async (trackSlug: string): Promise<InternshipCoh
     const response = await apiClient.get('/internships/cohorts', {
       params: { track: trackSlug },
     });
-    // Handle both direct array and wrapped object responses
-    const data = response.data;
-    if (Array.isArray(data)) {
-      return data;
+    const body = response.data;
+    if (body?.success && Array.isArray(body.data)) {
+      return body.data;
     }
-    if (data && typeof data === 'object' && 'cohorts' in data && Array.isArray(data.cohorts)) {
-      return data.cohorts;
+    if (Array.isArray(body)) {
+      return body;
+    }
+    if (body && typeof body === 'object' && 'cohorts' in body && Array.isArray(body.cohorts)) {
+      return body.cohorts;
     }
     console.warn('Unexpected cohorts API response format, returning empty array');
     return [];
@@ -134,8 +139,18 @@ export const submitApplication = async (formData: FormData): Promise<SubmissionR
     if (error.response?.status === 429) {
       throw new Error('Too many applications from this device. Please try again later.');
     }
-    if (error.response?.status === 422) {
-      throw new Error('Validation error: ' + JSON.stringify(error.response.data));
+    if (error.response?.status === 409) {
+      throw new Error(error.response.data?.message || 'An application from this email is already pending review.');
+    }
+    if (error.response?.status === 422 || error.response?.status === 400) {
+      const errors = error.response.data?.errors;
+      if (errors) {
+        const messages = Object.entries(errors)
+          .map(([field, msgs]) => `${field}: ${(msgs as string[]).join(', ')}`)
+          .join('\n');
+        throw new Error('Validation error:\n' + messages);
+      }
+      throw new Error(error.response.data?.message || 'Validation error. Please check your inputs.');
     }
     if (error.response?.status === 500) {
       throw new Error('Server error. Please try again later.');
@@ -149,30 +164,19 @@ export const checkApplicationStatus = async (
   email: string
 ): Promise<ApplicationStatus> => {
   try {
-    const response = await apiClient.get<ApplicationStatus>(
+    const response = await apiClient.get(
       '/internships/apply/status',
       {
         params: { ref, email },
       }
     );
-    return response.data;
+    const body = response.data;
+    if (body?.success && body.data) {
+      return body.data;
+    }
+    return body;
   } catch (error) {
     console.error('Failed to check application status:', error);
     throw error;
-  }
-};
-
-export const checkEmailExists = async (email: string): Promise<boolean> => {
-  try {
-    const response = await apiClient.get<{ exists: boolean }>(
-      '/internships/apply/check-email',
-      {
-        params: { email },
-      }
-    );
-    return response.data.exists;
-  } catch (error) {
-    console.error('Failed to check email:', error);
-    return false;
   }
 };

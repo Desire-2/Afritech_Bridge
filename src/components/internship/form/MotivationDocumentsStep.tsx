@@ -2,11 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { Controller } from 'react-hook-form';
-import { FileText } from 'lucide-react';
+import { Lightbulb, FileText } from 'lucide-react';
 import { GlowInput } from '../ui/GlowInput';
+import { GlowTextarea } from '../ui/GlowTextarea';
 import { DropZone } from '../ui/DropZone';
 
-interface DocumentsStepProps {
+interface MotivationDocumentsStepProps {
   control: any;
   formState: any;
   watch: any;
@@ -30,7 +31,7 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
 };
 
-export const DocumentsStep: React.FC<DocumentsStepProps> = ({
+export const MotivationDocumentsStep: React.FC<MotivationDocumentsStepProps> = ({
   control,
   formState,
   watch,
@@ -38,6 +39,7 @@ export const DocumentsStep: React.FC<DocumentsStepProps> = ({
   onNext,
   onBack,
 }) => {
+  const motivationText = watch('motivation_letter') || '';
   const cvFile = watch('cv_file');
 
   return (
@@ -49,20 +51,20 @@ export const DocumentsStep: React.FC<DocumentsStepProps> = ({
       className="w-full"
     >
       <div className="mb-8">
-        <h2 className="text-3xl font-bold font-display text-white mb-2">Your Documents</h2>
-        <p className="text-white/70">Share your CV and portfolio links</p>
+        <h2 className="text-3xl font-bold font-display text-white mb-2">Motivation & Documents</h2>
+        <p className="text-white/70">Share your motivation and upload your CV</p>
       </div>
 
-      {/* Info Banner */}
+      {/* Info Tip */}
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.1 }}
         className="mb-8 p-4 rounded-lg bg-teal-500/10 border border-teal-500/30 flex gap-3"
       >
-        <FileText className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
+        <Lightbulb className="w-5 h-5 text-teal-400 flex-shrink-0 mt-0.5" />
         <p className="text-sm text-white/70">
-          Your CV should be up to date. Include any projects, courses, and volunteer work. <strong>No more than 2 pages recommended.</strong>
+          <strong className="text-teal-300">💡 Tip:</strong> Write authentically about your passion for technology. We read every application personally.
         </p>
       </motion.div>
 
@@ -72,11 +74,36 @@ export const DocumentsStep: React.FC<DocumentsStepProps> = ({
         initial="hidden"
         animate="visible"
       >
+        {/* Motivation Letter */}
+        <motion.div variants={itemVariants}>
+          <Controller
+            name="motivation_letter"
+            control={control}
+            render={({ field }) => (
+              <GlowTextarea
+                {...field}
+                label="Why do you want to intern at AfriTech Bridge?"
+                placeholder="Tell us about your passion for technology and why this opportunity matters to you..."
+                required
+                maxChars={5000}
+                charCount={motivationText.length}
+                error={formState.errors.motivation_letter?.message}
+              />
+            )}
+          />
+        </motion.div>
+
         {/* CV File Upload */}
         <motion.div variants={itemVariants}>
           <label className="block text-xs font-semibold uppercase tracking-wide text-teal-400 mb-3">
             Upload CV <span className="text-red-400">*</span>
           </label>
+          <div className="mb-3 p-3 rounded-lg bg-teal-500/5 border border-teal-500/20 flex gap-3">
+            <FileText className="w-4 h-4 text-teal-400 flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-white/60">
+              PDF, DOC, or DOCX — Max 5MB. No more than 2 pages recommended.
+            </p>
+          </div>
           <DropZone
             onFileSelect={(file) => setValue('cv_file', file)}
             file={cvFile}
@@ -150,9 +177,9 @@ export const DocumentsStep: React.FC<DocumentsStepProps> = ({
         </button>
         <button
           onClick={onNext}
-          disabled={!cvFile}
+          disabled={!cvFile || Object.keys(formState.errors).length > 0}
           className={`flex-1 py-3 px-6 rounded-lg font-semibold transition-all ${
-            cvFile
+            cvFile && Object.keys(formState.errors).length === 0
               ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:shadow-lg hover:shadow-orange-500/30'
               : 'bg-white/10 text-white/40 cursor-not-allowed'
           }`}

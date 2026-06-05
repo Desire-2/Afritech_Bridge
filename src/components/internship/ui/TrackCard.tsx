@@ -33,7 +33,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
 };
 
 export const TrackCard: React.FC<TrackCardProps> = ({ track, isSelected, onClick, index }) => {
-  const IconComponent = iconMap[track.icon] || Sparkles;
+  const IconComponent = iconMap[track.icon_key] || Sparkles;
 
   return (
     <motion.div

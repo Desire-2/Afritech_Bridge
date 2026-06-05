@@ -9,8 +9,6 @@ import {
   step2Schema,
   step3Schema,
   step4Schema,
-  step5Schema,
-  step6Schema,
 } from '@/schemas/applicationSchema';
 
 const STORAGE_KEY = 'internship_form_state';
@@ -33,10 +31,6 @@ export const useInternshipForm = () => {
         return step3Schema;
       case 3:
         return step4Schema;
-      case 4:
-        return step5Schema;
-      case 5:
-        return step6Schema;
       default:
         return step1Schema;
     }
@@ -50,19 +44,12 @@ export const useInternshipForm = () => {
       full_name: '',
       email: '',
       phone: '',
-      date_of_birth: '',
-      gender: '',
-      district: '',
-      applicant_type: '',
-      institution: '',
-      field_of_study: '',
-      graduation_year: '',
-      experience_level: '',
-      skills_tags: [],
+      national_id: '',
       motivation_letter: '',
       portfolio_url: '',
       github_url: '',
       linkedin_url: '',
+      applicant_type: '',
       consent: false,
     },
   });
@@ -99,7 +86,7 @@ export const useInternshipForm = () => {
   const goNext = useCallback(async () => {
     const isValid = await methods.trigger();
     if (isValid) {
-      setCurrentStep((prev) => Math.min(prev + 1, 5));
+      setCurrentStep((prev) => Math.min(prev + 1, 3));
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [methods]);

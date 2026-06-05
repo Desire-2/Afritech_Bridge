@@ -8,9 +8,7 @@ import { Header } from '@/components/internship/layout/Header';
 import { StepIndicator } from '@/components/internship/form/StepIndicator';
 import { TrackSelector } from '@/components/internship/form/TrackSelector';
 import { PersonalInfoStep } from '@/components/internship/form/PersonalInfoStep';
-import { AcademicStep } from '@/components/internship/form/AcademicStep';
-import { MotivationStep } from '@/components/internship/form/MotivationStep';
-import { DocumentsStep } from '@/components/internship/form/DocumentsStep';
+import { MotivationDocumentsStep } from '@/components/internship/form/MotivationDocumentsStep';
 import { ReviewStep } from '@/components/internship/form/ReviewStep';
 import { SuccessScreen } from '@/components/internship/ui/SuccessScreen';
 import { useInternshipForm } from '@/hooks/useInternshipForm';
@@ -31,6 +29,7 @@ export default function InternshipApplicationPage() {
     setSubmitError,
     referenceCode,
     setReferenceCode,
+    cvFile,
   } = useInternshipForm();
 
   const { control, formState, watch, setValue, handleSubmit } = methods;
@@ -39,7 +38,7 @@ export default function InternshipApplicationPage() {
   // Handle beforeunload for unsaved changes warning
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (currentStep > 0 && currentStep < 5) {
+      if (currentStep > 0 && currentStep < 3) {
         e.preventDefault();
         e.returnValue = '';
       }
@@ -57,40 +56,51 @@ export default function InternshipApplicationPage() {
       // Create FormData for multipart submission
       const formData = new FormData();
 
-      // Map frontend fields to backend field names
-      const fieldMapping: Record<string, string> = {
-        motivation_letter: 'cover_letter',
-        cv_file: 'resume',
-      };
+      // Append fields matching backend ApplicationSubmissionSchema
+      if (data.track_id) formData.append('track_id', data.track_id);
+      if (data.applicant_type) formData.append('applicant_type', data.applicant_type);
+      if (data.full_name) formData.append('full_name', data.full_name);
+      if (data.email) formData.append('email', data.email);
+      if (data.phone) formData.append('phone', data.phone);
+      if (data.national_id) formData.append('national_id', data.national_id);
+      if (data.motivation_letter) formData.append('motivation_letter', data.motivation_letter);
+      if (data.portfolio_url) formData.append('portfolio_url', data.portfolio_url);
+      if (data.github_url) formData.append('github_url', data.github_url);
+      if (data.linkedin_url) formData.append('linkedin_url', data.linkedin_url);
 
-      // Add all fields to FormData with proper mapping
-      Object.keys(data).forEach((key) => {
-        if (key === 'consent') {
-          // Don't send consent to backend
-          return;
-        }
-
-        const backendKey = fieldMapping[key] || key;
-
-        if (key === 'cv_file' && data[key]) {
-          formData.append('resume', data[key]);
-        } else if (key === 'skills_tags' && Array.isArray(data[key])) {
-          formData.append('skills_tags', JSON.stringify(data[key]));
-        } else if (key === 'motivation_letter' && data[key]) {
-          formData.append('cover_letter', data[key]);
-        } else if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
-          formData.append(backendKey, String(data[key]));
-        }
-      });
+      // Append CV file — try form data first, fall back to the cvFile state
+      const cvData = data.cv_file || cvFile;
+      if (cvData) {
+        formData.append('cv', cvData);
+      }
 
       const response = await submitApplication(formData);
-      setReferenceCode(response.reference_code);
 
-      // Clear form state from sessionStorage
-      sessionStorage.removeItem('internship_form_state');
+      // Handle both wrapped { success, data: { reference_code } } and flat { reference_code }
+      const refCode =
+        response?.data?.reference_code ||
+        (response as any)?.reference_code ||
+        null;
 
-      // Success toast
-      toast.success('Application submitted successfully!');
+      if (refCode) {
+        setReferenceCode(refCode);
+        sessionStorage.removeItem('internship_form_state');
+        toast.success('Application submitted successfully!');
+      } else {
+        // API returned success but no reference code — show success message from server
+        const msg = response?.message || 'Application submitted successfully!';
+        toast.success(msg);
+        // Try to extract reference code from the message itself
+        const match = msg.match(/ATB-\d{2}-[A-F0-9]{4}/);
+        if (match) {
+          setReferenceCode(match[0]);
+          sessionStorage.removeItem('internship_form_state');
+        } else {
+          // Fallback: show a generic success
+          setReferenceCode('CHECK_EMAIL');
+          sessionStorage.removeItem('internship_form_state');
+        }
+      }
     } catch (error: any) {
       const message = error.message || 'Failed to submit application. Please try again.';
       setSubmitError(message);
@@ -100,10 +110,24 @@ export default function InternshipApplicationPage() {
     }
   };
 
+  // Validation error handler for handleSubmit — shows toast with first error
+  const onValidationError = (errors: any) => {
+    const firstKey = Object.keys(errors)[0];
+    if (firstKey) {
+      const error = errors[firstKey];
+      const msg = error?.message || `Please fix the ${firstKey} field`;
+      toast.error(String(msg));
+    } else {
+      toast.error('Please fill in all required fields');
+    }
+  };
+
   const handleNext = async () => {
-    if (currentStep === 5) {
-      // Final submission
-      handleSubmit(onSubmit)();
+    if (currentStep === 3) {
+      // Final step — validate step 4 fields then submit
+      // handleSubmit validates using current step's resolver (step4Schema)
+      // and calls onSubmit on success, onValidationError on failure
+      handleSubmit(onSubmit, onValidationError)();
     } else {
       goNext();
     }
@@ -141,8 +165,8 @@ export default function InternshipApplicationPage() {
           {/* Step Indicator */}
           <StepIndicator
             currentStep={currentStep}
-            totalSteps={6}
-            stepLabels={['Track', 'Personal', 'Background', 'Motivation', 'Documents', 'Review']}
+            totalSteps={4}
+            stepLabels={['Track', 'Personal', 'Motivation & Documents', 'Review']}
             onStepClick={jumpTo}
           />
 
@@ -192,8 +216,8 @@ export default function InternshipApplicationPage() {
                 />
               )}
               {currentStep === 2 && (
-                <AcademicStep
-                  key="academic"
+                <MotivationDocumentsStep
+                  key="motivation-documents"
                   control={control}
                   formState={formState}
                   watch={watch}
@@ -203,27 +227,6 @@ export default function InternshipApplicationPage() {
                 />
               )}
               {currentStep === 3 && (
-                <MotivationStep
-                  key="motivation"
-                  control={control}
-                  formState={formState}
-                  watch={watch}
-                  onNext={goNext}
-                  onBack={goBack}
-                />
-              )}
-              {currentStep === 4 && (
-                <DocumentsStep
-                  key="documents"
-                  control={control}
-                  formState={formState}
-                  watch={watch}
-                  setValue={setValue}
-                  onNext={goNext}
-                  onBack={goBack}
-                />
-              )}
-              {currentStep === 5 && (
                 <ReviewStep
                   key="review"
                   control={control}
