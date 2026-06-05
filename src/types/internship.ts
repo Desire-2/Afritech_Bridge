@@ -18,18 +18,23 @@ export interface InternshipCohort {
 
 export interface ApplicationFormData {
   // Step 1: Track Selection
-  track_slug: string;
   track_id: string;
-  cohort_id?: string;
 
-  // Step 2: Personal Information (backend fields only)
+  // Step 2: Personal Information
   full_name: string;
   email: string;
   phone: string;
-  national_id?: string;
+  date_of_birth: string;
+  gender: string;
+  district: string;
 
-  // Step 3: Applicant Type (backend enum: graduate / short_course_alumni / external)
+  // Step 3: Academic Background
   applicant_type: string;
+  institution: string;
+  field_of_study: string;
+  graduation_year: string;
+  experience_level: string;
+  skills_tags: string[];
 
   // Step 4: Motivation
   motivation_letter: string;
@@ -46,12 +51,8 @@ export interface ApplicationFormData {
 
 export interface SubmissionResponse {
   success: boolean;
+  reference_code: string;
   message: string;
-  data?: {
-    reference_code: string;
-    message: string;
-  };
-  reference_code?: string;
 }
 
 export interface ApplicationStatus {

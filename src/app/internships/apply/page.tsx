@@ -14,6 +14,7 @@ import { DocumentsStep } from '@/components/internship/form/DocumentsStep';
 import { ReviewStep } from '@/components/internship/form/ReviewStep';
 import { SuccessScreen } from '@/components/internship/ui/SuccessScreen';
 import { useInternshipForm } from '@/hooks/useInternshipForm';
+import { useTracks } from '@/hooks/useTracks';
 import { submitApplication } from '@/api/internship';
 
 export default function InternshipApplicationPage() {
@@ -30,27 +31,10 @@ export default function InternshipApplicationPage() {
     setSubmitError,
     referenceCode,
     setReferenceCode,
-    cvFile,
-    setCvFile,
   } = useInternshipForm();
 
   const { control, formState, watch, setValue, handleSubmit } = methods;
-
-  // Sync cv_file from react-hook-form to the cvFile state
-  // (cvFile state is the source of truth for the File object)
-  useEffect(() => {
-    const subscription = watch((value, { name }) => {
-      if (name === 'cv_file' || name === undefined) {
-        const file = value.cv_file;
-        if (file instanceof File) {
-          setCvFile(file);
-        } else {
-          setCvFile(null);
-        }
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [watch, setCvFile]);
+  const { tracks, isLoading: tracksLoading } = useTracks();
 
   // Handle beforeunload for unsaved changes warning
   useEffect(() => {
@@ -73,61 +57,39 @@ export default function InternshipApplicationPage() {
       // Create FormData for multipart submission
       const formData = new FormData();
 
-      // --- CV FILE (backend expects field name 'cv', NOT 'cv_file') ---
-      const cvFileToSend = (
-        (cvFile instanceof File ? cvFile : null)
-        ?? (methods.getValues('cv_file') instanceof File ? methods.getValues('cv_file') : null)
-        ?? (data.cv_file instanceof File ? data.cv_file : null)
-      );
+      // Map frontend fields to backend field names
+      const fieldMapping: Record<string, string> = {
+        motivation_letter: 'cover_letter',
+        cv_file: 'resume',
+      };
 
-      if (cvFileToSend) {
-        formData.append('cv', cvFileToSend);
-      }
-
-      // --- TRACK ID (stored in form state at selection time) ---
-      // Read ALL form values directly from form state at submit time
-      // (handleSubmit's 'data' parameter may not include unregistered fields)
-      const allValues = methods.getValues();
-
-      // track_id was saved in form state when the user selected the track
-      const trackId = allValues.track_id || data.track_id;
-      if (trackId) {
-        formData.append('track_id', trackId);
-      } else {
-        // Last resort fallback: send the slug directly
-        const trackSlug = allValues.track_slug || data.track_slug;
-        if (trackSlug) {
-          formData.append('track_id', trackSlug);
+      // Add all fields to FormData with proper mapping
+      Object.keys(data).forEach((key) => {
+        if (key === 'consent') {
+          // Don't send consent to backend
+          return;
         }
-      }
 
-      // --- FORM TEXT FIELDS ---
-      const skipFields = new Set([
-        'track_slug',   // sent as track_id instead
-        'consent',      // UI-only field
-        'cv_file',      // sent as 'cv' above
-      ]);
+        const backendKey = fieldMapping[key] || key;
 
-      // Build FormData from allValues (direct form state) with fallback to data
-      const sourceData = (Object.keys(allValues).length > 0 ? allValues : data) as Record<string, unknown>;
-
-      Object.keys(sourceData).forEach((key) => {
-        if (skipFields.has(key)) return;
-
-        const value = sourceData[key];
-        if (value === null || value === undefined || value === '') return;
-
-        formData.append(key, String(value));
+        if (key === 'cv_file' && data[key]) {
+          formData.append('resume', data[key]);
+        } else if (key === 'skills_tags' && Array.isArray(data[key])) {
+          formData.append('skills_tags', JSON.stringify(data[key]));
+        } else if (key === 'motivation_letter' && data[key]) {
+          formData.append('cover_letter', data[key]);
+        } else if (data[key] !== null && data[key] !== undefined && data[key] !== '') {
+          formData.append(backendKey, String(data[key]));
+        }
       });
 
-      // Backend wraps response: {success, message, data: {reference_code, ...}}
       const response = await submitApplication(formData);
-      const refCode = response?.data?.reference_code ?? response?.reference_code ?? null;
-      setReferenceCode(refCode);
+      setReferenceCode(response.reference_code);
 
       // Clear form state from sessionStorage
       sessionStorage.removeItem('internship_form_state');
 
+      // Success toast
       toast.success('Application submitted successfully!');
     } catch (error: any) {
       const message = error.message || 'Failed to submit application. Please try again.';
@@ -180,7 +142,7 @@ export default function InternshipApplicationPage() {
           <StepIndicator
             currentStep={currentStep}
             totalSteps={6}
-            stepLabels={['Track', 'Personal', 'Applicant', 'Motivation', 'Documents', 'Review']}
+            stepLabels={['Track', 'Personal', 'Background', 'Motivation', 'Documents', 'Review']}
             onStepClick={jumpTo}
           />
 
@@ -213,11 +175,10 @@ export default function InternshipApplicationPage() {
               {currentStep === 0 && (
                 <TrackSelector
                   key="track"
-                  selectedTrack={watch('track_slug')}
-                  onTrackSelect={(slug, trackId) => {
-                    setValue('track_slug', slug);
-                    setValue('track_id', trackId);
-                  }}
+                  selectedTrack={watch('track_id')}
+                  tracks={tracks}
+                  isLoading={tracksLoading}
+                  onTrackSelect={(id) => setValue('track_id', id)}
                   onNext={goNext}
                 />
               )}
@@ -235,6 +196,8 @@ export default function InternshipApplicationPage() {
                   key="academic"
                   control={control}
                   formState={formState}
+                  watch={watch}
+                  setValue={setValue}
                   onNext={goNext}
                   onBack={goBack}
                 />
@@ -266,6 +229,7 @@ export default function InternshipApplicationPage() {
                   control={control}
                   formState={formState}
                   watch={watch}
+                  tracks={tracks}
                   onNext={handleNext}
                   onBack={goBack}
                   onJumpTo={jumpTo}

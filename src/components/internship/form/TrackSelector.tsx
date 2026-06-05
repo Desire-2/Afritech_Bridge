@@ -4,18 +4,19 @@ import { motion } from 'framer-motion';
 import { Loader } from 'lucide-react';
 import { Controller } from 'react-hook-form';
 import { TrackCard } from '../ui/TrackCard';
-import { useTracks } from '@/hooks/useTracks';
 import { InternshipTrack } from '@/types/internship';
 
 interface TrackSelectorProps {
   selectedTrack: string;
-  onTrackSelect: (slug: string, trackId: string) => void;
+  tracks: InternshipTrack[];
+  isLoading: boolean;
+  onTrackSelect: (id: string) => void;
   onNext: () => void;
 }
 
 const FALLBACK_TRACKS: InternshipTrack[] = [
   {
-    id: '1',
+    id: '00000000-0000-0000-0000-000000000001',
     slug: 'mobile',
     name: 'Mobile Development',
     description: 'Build iOS and Android applications',
@@ -23,7 +24,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '2',
+    id: '00000000-0000-0000-0000-000000000002',
     slug: 'frontend',
     name: 'Frontend Development',
     description: 'Create beautiful user interfaces',
@@ -31,7 +32,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '3',
+    id: '00000000-0000-0000-0000-000000000003',
     slug: 'backend',
     name: 'Backend Development',
     description: 'Build robust server infrastructure',
@@ -39,7 +40,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '4',
+    id: '00000000-0000-0000-0000-000000000004',
     slug: 'fullstack',
     name: 'Full Stack Development',
     description: 'Master front and back end',
@@ -47,7 +48,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '5',
+    id: '00000000-0000-0000-0000-000000000005',
     slug: 'data',
     name: 'Data Science',
     description: 'Analyze and visualize data',
@@ -55,7 +56,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '6',
+    id: '00000000-0000-0000-0000-000000000006',
     slug: 'design',
     name: 'UI/UX Design',
     description: 'Design user experiences',
@@ -63,7 +64,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '7',
+    id: '00000000-0000-0000-0000-000000000007',
     slug: 'devops',
     name: 'DevOps Engineering',
     description: 'Manage cloud infrastructure',
@@ -71,7 +72,7 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
     isOpen: true,
   },
   {
-    id: '8',
+    id: '00000000-0000-0000-0000-000000000008',
     slug: 'other',
     name: 'Other',
     description: 'Other areas',
@@ -82,11 +83,14 @@ const FALLBACK_TRACKS: InternshipTrack[] = [
 
 export const TrackSelector: React.FC<TrackSelectorProps> = ({
   selectedTrack,
+  tracks,
+  isLoading,
   onTrackSelect,
   onNext,
 }) => {
-  const { tracks, isLoading } = useTracks();
-  const displayTracks = tracks.length > 0 ? tracks : FALLBACK_TRACKS;
+  // Ensure tracks is always an array
+  const tracksArray = Array.isArray(tracks) ? tracks : [];
+  const displayTracks = tracksArray.length > 0 ? tracksArray : FALLBACK_TRACKS;
 
   return (
     <motion.div
@@ -141,8 +145,8 @@ export const TrackSelector: React.FC<TrackSelectorProps> = ({
             <TrackCard
               key={track.slug}
               track={track}
-              isSelected={selectedTrack === track.slug}
-              onClick={() => onTrackSelect(track.slug, track.id)}
+              isSelected={selectedTrack === track.id}
+              onClick={() => onTrackSelect(track.id)}
               index={index}
             />
           ))}
@@ -158,7 +162,7 @@ export const TrackSelector: React.FC<TrackSelectorProps> = ({
           className="mb-8 p-4 rounded-lg bg-teal-500/10 border border-teal-500/30"
         >
           <p className="text-sm text-teal-300">
-            ✓ Track selected: <strong>{displayTracks.find(t => t.slug === selectedTrack)?.name}</strong>
+            ✓ Track selected:            <strong>{displayTracks.find(t => t.id === selectedTrack)?.name}</strong>
           </p>
         </motion.div>
       )}
