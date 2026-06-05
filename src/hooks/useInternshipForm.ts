@@ -18,7 +18,6 @@ export const useInternshipForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [referenceCode, setReferenceCode] = useState<string | null>(null);
-  const [cvFile, setCvFile] = useState<File | null>(null);
 
   // Get schema for current step
   const getSchemaForStep = (step: number) => {
@@ -104,7 +103,6 @@ export const useInternshipForm = () => {
   const resetForm = useCallback(() => {
     methods.reset();
     setCurrentStep(0);
-    setCvFile(null);
     setReferenceCode(null);
     setSubmitError(null);
     sessionStorage.removeItem(STORAGE_KEY);
@@ -123,7 +121,5 @@ export const useInternshipForm = () => {
     setSubmitError,
     referenceCode,
     setReferenceCode,
-    cvFile,
-    setCvFile,
   };
 };

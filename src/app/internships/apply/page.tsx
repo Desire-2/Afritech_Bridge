@@ -29,7 +29,6 @@ export default function InternshipApplicationPage() {
     setSubmitError,
     referenceCode,
     setReferenceCode,
-    cvFile,
   } = useInternshipForm();
 
   const { control, formState, watch, setValue, handleSubmit } = methods;
@@ -48,30 +47,34 @@ export default function InternshipApplicationPage() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [currentStep]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (_data: any) => {
     try {
       setIsSubmitting(true);
       setSubmitError(null);
+
+      // Use getValues() to read ALL fields from react-hook-form's internal state.
+      // handleSubmit validates against step4Schema which only has applicant_type + consent,
+      // so zod strips all other fields from the `data` param. getValues() bypasses this.
+      const allValues = methods.getValues();
 
       // Create FormData for multipart submission
       const formData = new FormData();
 
       // Append fields matching backend ApplicationSubmissionSchema
-      if (data.track_id) formData.append('track_id', data.track_id);
-      if (data.applicant_type) formData.append('applicant_type', data.applicant_type);
-      if (data.full_name) formData.append('full_name', data.full_name);
-      if (data.email) formData.append('email', data.email);
-      if (data.phone) formData.append('phone', data.phone);
-      if (data.national_id) formData.append('national_id', data.national_id);
-      if (data.motivation_letter) formData.append('motivation_letter', data.motivation_letter);
-      if (data.portfolio_url) formData.append('portfolio_url', data.portfolio_url);
-      if (data.github_url) formData.append('github_url', data.github_url);
-      if (data.linkedin_url) formData.append('linkedin_url', data.linkedin_url);
+      if (allValues.track_id) formData.append('track_id', allValues.track_id);
+      if (allValues.applicant_type) formData.append('applicant_type', allValues.applicant_type);
+      if (allValues.full_name) formData.append('full_name', allValues.full_name);
+      if (allValues.email) formData.append('email', allValues.email);
+      if (allValues.phone) formData.append('phone', allValues.phone);
+      if (allValues.national_id) formData.append('national_id', allValues.national_id);
+      if (allValues.motivation_letter) formData.append('motivation_letter', allValues.motivation_letter);
+      if (allValues.portfolio_url) formData.append('portfolio_url', allValues.portfolio_url);
+      if (allValues.github_url) formData.append('github_url', allValues.github_url);
+      if (allValues.linkedin_url) formData.append('linkedin_url', allValues.linkedin_url);
 
-      // Append CV file — try form data first, fall back to the cvFile state
-      const cvData = data.cv_file || cvFile;
-      if (cvData) {
-        formData.append('cv', cvData);
+      // Append CV file
+      if (allValues.cv_file) {
+        formData.append('cv', allValues.cv_file);
       }
 
       const response = await submitApplication(formData);
