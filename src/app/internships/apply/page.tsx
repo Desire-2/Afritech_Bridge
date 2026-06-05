@@ -34,6 +34,22 @@ export default function InternshipApplicationPage() {
   const { control, formState, watch, setValue, handleSubmit } = methods;
   const { tracks, isLoading: tracksLoading } = useTracks();
 
+  // Auto-select track from URL ?track= parameter
+  useEffect(() => {
+    if (tracks.length > 0) {
+      const params = new URLSearchParams(window.location.search);
+      const trackSlug = params.get('track');
+      if (trackSlug) {
+        const matchedTrack = tracks.find(
+          (t) => t.slug === trackSlug || t.id === trackSlug
+        );
+        if (matchedTrack) {
+          setValue('track_id', matchedTrack.id);
+        }
+      }
+    }
+  }, [tracks, setValue]);
+
   // Handle beforeunload for unsaved changes warning
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {

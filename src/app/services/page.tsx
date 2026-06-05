@@ -1,15 +1,33 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 export default function Services() {
   return (
     <div className="min-h-screen bg-white">
       {/* ===== HERO SECTION ===== */}
-      <section className="relative bg-[#003A7A] text-white overflow-hidden pattern-grid">
+      <section className="relative bg-[#003A7A] text-white overflow-hidden pattern-grid min-h-[90vh] flex items-center">
+        {/* Animated gradient mesh background */}
+        <div className="absolute inset-0 gradient-mesh gradient-mesh-slow" />
+
         {/* Decorative floating elements */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-[#00A6B8]/10 blur-3xl animate-pulse" style={{animationDuration: '6s'}} />
           <div className="absolute -bottom-32 -left-32 w-[30rem] h-[30rem] rounded-full bg-[#F68B1F]/8 blur-3xl animate-pulse" style={{animationDuration: '8s'}} />
+          
+          {/* Orbital ring decorations */}
+          <div className="absolute top-1/4 left-[8%] w-32 h-32 orbit-ring" style={{animation: 'orbitSpin 25s linear infinite'}}>
+            <div className="orbit-ring-dot" />
+          </div>
+          <div className="absolute top-1/3 right-[12%] w-48 h-48 orbit-ring" style={{animation: 'orbitSpinReverse 35s linear infinite', borderColor: 'rgba(246,139,31,0.12)'}}>
+            <div className="orbit-ring-dot" style={{background: '#F68B1F', top: 'auto', bottom: '-3px', left: '50%'}} />
+          </div>
+          <div className="absolute bottom-1/4 right-[20%] w-24 h-24 orbit-ring" style={{animation: 'orbitSpin 20s linear infinite', borderColor: 'rgba(0,166,184,0.1)'}}>
+            <div className="orbit-ring-dot" style={{left: 'auto', right: '-3px', top: '50%', marginLeft: 0}} />
+          </div>
+
           <svg className="absolute top-20 left-10 w-16 h-16 text-[#00A6B8]/10 animate-float" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5" aria-hidden="true">
             <circle cx="50" cy="50" r="40" />
             <circle cx="50" cy="50" r="25" />
@@ -22,12 +40,28 @@ export default function Services() {
           <svg className="absolute top-1/3 right-1/4 w-12 h-12 text-white/5" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5" style={{animation: 'floatDrift 9s ease-in-out infinite'}} aria-hidden="true">
             <polygon points="50,5 95,50 50,95 5,50" />
           </svg>
+
+          {/* Floating stat badges */}
+          <div className="hidden lg:block">
+            <div className="stat-badge absolute top-[20%] right-[6%]" style={{animationDelay: '0.5s'}}>
+              <span className="stat-number">100+</span>
+              <span className="stat-label">Projects Delivered</span>
+            </div>
+            <div className="stat-badge absolute bottom-[30%] left-[5%]" style={{animationDelay: '1.5s'}}>
+              <span className="stat-number">50+</span>
+              <span className="stat-label">Happy Clients</span>
+            </div>
+            <div className="stat-badge absolute top-[40%] right-[3%]" style={{animationDelay: '2.5s'}}>
+              <span className="stat-number">5+</span>
+              <span className="stat-label">Years Experience</span>
+            </div>
+          </div>
         </div>
 
         {/* Animated brand gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#003A7A]/90 via-[#003A7A]/70 to-[#002a5e]/90" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
+        <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">
           <div className="text-center max-w-4xl mx-auto">
             <span className="eyebrow-label justify-center mb-6">Our Services</span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight font-['Syne',sans-serif]">
@@ -42,11 +76,220 @@ export default function Services() {
             <div className="flex justify-center mt-8">
               <div className="h-1 w-20 rounded-full bg-gradient-to-r from-[#00A6B8] to-[#F68B1F]" style={{animation: 'pulseGlow 3s ease-in-out infinite'}} />
             </div>
+
+            {/* Service category pills */}
+            <div className="flex flex-wrap justify-center gap-3 mt-10">
+              {['Web Apps', 'Mobile Apps', 'Custom Software', 'IT Consulting', 'Training'].map((pill, i) => (
+                <span
+                  key={pill}
+                  className={`service-pill anim-fade-up anim-delay-${i + 1}`}
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00A6B8]" />
+                  {pill}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
 
         {/* Bottom fade */}
         <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+      </section>
+
+      {/* ===== INTERNSHIP PROGRAMS (MOVED TO TOP) ===== */}
+      <section className="relative py-20 lg:py-28 overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00A6B8]/3 to-transparent pointer-events-none" />
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00A6B8]/20 to-transparent" />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          {/* Header */}
+          <div className="text-center mb-16 lg:mb-20">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="eyebrow-label justify-center mb-4"
+            >
+              Build Your Future
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#003A7A] mb-5 font-['Syne',sans-serif]"
+            >
+              Internship Programs
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed font-['DM_Sans',sans-serif]"
+            >
+              Launch your tech career with our comprehensive internship programs. Gain hands-on experience, mentorship from industry experts, and real-world project exposure across multiple specializations.
+            </motion.p>
+          </div>
+
+          {/* Internship Track Cards with sliding animation */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-50px' }}
+            variants={{
+              hidden: {},
+              visible: {
+                transition: {
+                  staggerChildren: 0.08,
+                  delayChildren: 0.1,
+                },
+              },
+            }}
+          >
+            {[
+              {
+                title: 'Mobile Development',
+                desc: 'Build native iOS and Android applications using the latest frameworks and best practices',
+                bullets: ['Swift & Kotlin development', 'App Store deployment'],
+                slug: 'mobile',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                ),
+              },
+              {
+                title: 'Frontend Development',
+                desc: 'Create beautiful, interactive user interfaces using modern web technologies',
+                bullets: ['React, Vue, Angular frameworks', 'Responsive web design'],
+                slug: 'frontend',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                ),
+              },
+              {
+                title: 'Backend Development',
+                desc: 'Build robust server-side applications and APIs that power modern software',
+                bullets: ['Node.js, Python, Java', 'Database management'],
+                slug: 'backend',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+                ),
+              },
+              {
+                title: 'Full Stack Development',
+                desc: 'Master both frontend and backend technologies to build complete applications',
+                bullets: ['MERN & MEAN stacks', 'Full application development'],
+                slug: 'fullstack',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                ),
+              },
+              {
+                title: 'Data Science',
+                desc: 'Work with data analytics, machine learning, and insights generation',
+                bullets: ['Python & R programming', 'Machine learning models'],
+                slug: 'data',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                ),
+              },
+              {
+                title: 'UX/UI Design',
+                desc: 'Create stunning user experiences with design thinking and tools',
+                bullets: ['Figma & design tools', 'User research methods'],
+                slug: 'design',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                ),
+              },
+              {
+                title: 'DevOps',
+                desc: 'Learn infrastructure, deployment, and cloud operations',
+                bullets: ['Docker & Kubernetes', 'Cloud platforms (AWS, GCP)'],
+                slug: 'devops',
+                icon: (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                ),
+              },
+            ].map((track, i) => (
+              <motion.div
+                key={track.title}
+                variants={{
+                  hidden: { opacity: 0, x: i % 2 === 0 ? -30 : 30, y: 30 },
+                  visible: {
+                    opacity: 1,
+                    x: 0,
+                    y: 0,
+                    transition: { duration: 0.5, ease: 'easeOut' },
+                  },
+                }}
+                whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                className="group relative bg-white rounded-2xl p-6 lg:p-7"
+              >
+                {/* Gradient border on hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{padding: '1px', background: 'linear-gradient(135deg, #00A6B8, #F68B1F)', mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude', WebkitMaskComposite: 'xor'}} />
+                
+                {/* Icon */}
+                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00A6B8]/10 to-[#F68B1F]/5 border border-[#00A6B8]/15 flex items-center justify-center text-[#00A6B8] mb-4 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#00A6B8]/20">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    {track.icon}
+                  </svg>
+                </div>
+                
+                <h3 className="text-lg font-bold text-[#003A7A] mb-2 font-['Syne',sans-serif] group-hover:text-[#00A6B8] transition-colors">
+                  {track.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-4 leading-relaxed font-['DM_Sans',sans-serif]">
+                  {track.desc}
+                </p>
+                
+                <ul className="space-y-1.5 text-sm mb-5">
+                  {track.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-gray-500 font-['DM_Sans',sans-serif]">
+                      <span className="text-[#00A6B8] mt-0.5 flex-shrink-0">&#8226;</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Apply button linked to track */}
+                <Link
+                  href={`/internships/apply?track=${track.slug}`}
+                  className="group/btn relative inline-flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#00A6B8] to-[#0095a8] text-white text-sm font-bold px-4 py-2.5 rounded-lg font-['DM_Sans',sans-serif] transition-all duration-300 hover:shadow-lg hover:shadow-[#00A6B8]/30 hover:-translate-y-0.5 overflow-hidden"
+                >
+                  <span className="relative z-10">Apply Now</span>
+                  <svg className="relative z-10 w-3.5 h-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0095a8] to-[#00A6B8] opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* View All CTA */}
+          <motion.div
+            className="text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <Link
+              href="/internships/apply"
+              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-[#F68B1F] to-[#d97a10] text-white px-8 py-3.5 rounded-xl font-bold font-['DM_Sans',sans-serif] transition-all duration-300 hover:shadow-xl hover:shadow-[#F68B1F]/30 hover:-translate-y-0.5 overflow-hidden"
+            >
+              <span className="relative z-10">View All Programs & Apply</span>
+              <svg className="relative z-10 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+              <div className="absolute inset-0 bg-gradient-to-r from-[#d97a10] to-[#F68B1F] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </Link>
+          </motion.div>
+        </div>
       </section>
 
       {/* ===== SERVICES OVERVIEW ===== */}
@@ -97,22 +340,31 @@ export default function Services() {
             ].map((service, i) => (
               <div
                 key={service.title}
-                className={`group relative bg-white rounded-2xl p-6 lg:p-7 text-center hover-lift anim-fade-up ${service.delay}`}
+                className={`group relative bg-white rounded-2xl p-6 lg:p-7 text-center hover-lift anim-fade-up gradient-edge ${service.delay}`}
               >
-                {/* Icon */}
-                <div className="relative mx-auto mb-5 w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00A6B8]/10 to-[#00A6B8]/5 border border-[#00A6B8]/20 flex items-center justify-center text-[#00A6B8] icon-glow cursor-default overflow-hidden shimmer-overlay">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {/* Number badge */}
+                <span className="service-number">{`0${i + 1}`}</span>
+
+                {/* Icon with hover 3D effect */}
+                <div className="relative mx-auto mb-5 w-16 h-16 rounded-2xl bg-gradient-to-br from-[#00A6B8]/10 to-[#00A6B8]/5 border border-[#00A6B8]/20 flex items-center justify-center text-[#00A6B8] icon-glow cursor-default overflow-hidden shimmer-overlay transition-all duration-500 group-hover:rotate-[8deg] group-hover:scale-110">
+                  <svg className="w-8 h-8 transition-all duration-500 group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     {service.icon}
                   </svg>
+                  {/* Hover gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#00A6B8]/0 to-[#F68B1F]/0 group-hover:from-[#00A6B8]/20 group-hover:to-[#F68B1F]/10 transition-all duration-500" />
                 </div>
                 {/* Title */}
                 <h3 className="text-lg font-bold text-[#003A7A] mb-2 font-['Syne',sans-serif] group-hover:text-[#00A6B8] transition-colors duration-300">
                   {service.title}
                 </h3>
                 {/* Description */}
-                <p className="text-sm text-gray-600 leading-relaxed font-['DM_Sans',sans-serif]">
+                <p className="text-sm text-gray-600 leading-relaxed font-['DM_Sans',sans-serif] transition-all duration-300 group-hover:text-gray-800">
                   {service.desc}
                 </p>
+                {/* Hover reveal accent */}
+                <div className="mt-4 flex justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <span className="text-xs font-medium text-[#00A6B8] font-['DM_Mono',monospace] tracking-wider">Explore →</span>
+                </div>
               </div>
             ))}
           </div>
@@ -146,7 +398,7 @@ export default function Services() {
                 <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed font-['DM_Sans',sans-serif]">
                   From simple websites to complex web applications, we build responsive, user-friendly solutions using the latest technologies including React, Next.js, and Node.js.
                 </p>
-                <ul className="space-y-4">
+                <ul className="space-y-4 mb-8">
                   {[
                     'Responsive design for all devices',
                     'Modern frameworks and technologies',
@@ -163,16 +415,29 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
+                {/* Tech stack tags */}
+                <div className="flex flex-wrap gap-2">
+                  {['React', 'Next.js', 'Node.js', 'TypeScript', 'Tailwind'].map((tech) => (
+                    <span key={tech} className="tech-tag">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00A6B8]" />
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="relative group">
                 <div className="absolute -inset-2 bg-gradient-to-r from-[#00A6B8] to-[#F68B1F] rounded-2xl opacity-30 blur-xl group-hover:opacity-50 transition-all duration-500" />
-                <Image
-                  src="/images/services_section2.png"
-                  alt="Web development team"
-                  width={600}
-                  height={400}
-                  className="relative rounded-2xl shadow-xl w-full h-auto object-cover transform transition-all duration-500 group-hover:scale-[1.02]"
-                />
+                <div className="relative overflow-hidden rounded-2xl">
+                  <Image
+                    src="/images/services_section2.png"
+                    alt="Web development team"
+                    width={600}
+                    height={400}
+                    className="relative rounded-2xl shadow-xl w-full h-auto object-cover transform transition-all duration-500 group-hover:scale-[1.02]"
+                  />
+                  {/* Image overlay gradient on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#003A7A]/40 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                </div>
               </div>
             </div>
 
@@ -197,7 +462,7 @@ export default function Services() {
                 <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed font-['DM_Sans',sans-serif]">
                   We create engaging mobile experiences for both iOS and Android platforms, using native development and cross-platform frameworks like React Native.
                 </p>
-                <ul className="space-y-4">
+                <ul className="space-y-4 mb-8">
                   {[
                     'Native iOS and Android development',
                     'Cross-platform solutions',
@@ -214,6 +479,15 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
+                {/* Tech stack tags */}
+                <div className="flex flex-wrap gap-2">
+                  {['React Native', 'Flutter', 'Swift', 'Kotlin', 'Expo'].map((tech) => (
+                    <span key={tech} className="tech-tag">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#00A6B8]" />
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -228,7 +502,7 @@ export default function Services() {
                 <p className="text-base sm:text-lg text-gray-600 mb-8 leading-relaxed font-['DM_Sans',sans-serif]">
                   Every business is unique. We develop custom software solutions tailored to your specific requirements, ensuring seamless integration with your existing systems.
                 </p>
-                <ul className="space-y-4">
+                <ul className="space-y-4 mb-8">
                   {[
                     'Business process automation',
                     'Database design and management',
@@ -245,208 +519,35 @@ export default function Services() {
                     </li>
                   ))}
                 </ul>
+                {/* Tech stack tags */}
+                <div className="flex flex-wrap gap-2">
+                  {['Python', 'Java', 'PostgreSQL', 'Docker', 'AWS'].map((tech) => (
+                    <span key={tech} className="tech-tag tech-tag-orange">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#F68B1F]" />
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
               <div className="relative group">
                 <div className="absolute -inset-2 bg-gradient-to-r from-[#F68B1F] to-[#00A6B8] rounded-2xl opacity-30 blur-xl group-hover:opacity-50 transition-all duration-500" />
-                <Image
-                  src="/images/services_section4.png"
-                  alt="Custom software development"
-                  width={600}
-                  height={400}
-                  className="relative rounded-2xl shadow-xl w-full h-auto object-cover transform transition-all duration-500 group-hover:scale-[1.02]"
-                />
+                <div className="relative overflow-hidden rounded-2xl">
+                  <Image
+                    src="/images/services_section4.png"
+                    alt="Custom software development"
+                    width={600}
+                    height={400}
+                    className="relative rounded-2xl shadow-xl w-full h-auto object-cover transform transition-all duration-500 group-hover:scale-[1.02]"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#F68B1F]/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== INTERNSHIP PROGRAMS ===== */}
-      <section className="py-20 lg:py-28 relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#00A6B8]/3 to-transparent pointer-events-none" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00A6B8]/20 to-transparent" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <span className="eyebrow-label justify-center mb-4">Build Your Future</span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#003A7A] mb-5 font-['Syne',sans-serif]">
-              Internship Programs
-            </h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed font-['DM_Sans',sans-serif]">
-              Launch your tech career with our comprehensive internship programs. Gain hands-on experience, mentorship from industry experts, and real-world project exposure across multiple specializations.
-            </p>
-          </div>
-
-          {/* Internship Track Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-16">
-            {[
-              {
-                title: 'Mobile Development',
-                desc: 'Build native iOS and Android applications using the latest frameworks and best practices',
-                bullets: ['Swift & Kotlin development', 'App Store deployment'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                ),
-                delay: 'anim-delay-1',
-              },
-              {
-                title: 'Frontend Development',
-                desc: 'Create beautiful, interactive user interfaces using modern web technologies',
-                bullets: ['React, Vue, Angular frameworks', 'Responsive web design'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                ),
-                delay: 'anim-delay-2',
-              },
-              {
-                title: 'Backend Development',
-                desc: 'Build robust server-side applications and APIs that power modern software',
-                bullets: ['Node.js, Python, Java', 'Database management'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-                ),
-                delay: 'anim-delay-3',
-              },
-              {
-                title: 'Full Stack Development',
-                desc: 'Master both frontend and backend technologies to build complete applications',
-                bullets: ['MERN & MEAN stacks', 'Full application development'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                ),
-                delay: 'anim-delay-4',
-              },
-              {
-                title: 'Data Science',
-                desc: 'Work with data analytics, machine learning, and insights generation',
-                bullets: ['Python & R programming', 'Machine learning models'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                ),
-                delay: 'anim-delay-5',
-              },
-              {
-                title: 'UX/UI Design',
-                desc: 'Create stunning user experiences with design thinking and tools',
-                bullets: ['Figma & design tools', 'User research methods'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                ),
-                delay: 'anim-delay-6',
-              },
-              {
-                title: 'DevOps',
-                desc: 'Learn infrastructure, deployment, and cloud operations',
-                bullets: ['Docker & Kubernetes', 'Cloud platforms (AWS, GCP)'],
-                icon: (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                ),
-                delay: 'anim-delay-7',
-              },
-            ].map((track) => (
-              <div
-                key={track.title}
-                className={`group relative bg-white rounded-2xl p-6 lg:p-7 hover-lift anim-fade-up ${track.delay}`}
-              >
-                {/* Gradient border on hover */}
-                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{padding: '1px', background: 'linear-gradient(135deg, #00A6B8, #F68B1F)', mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)', maskComposite: 'exclude', WebkitMaskComposite: 'xor'}} />
-                {/* Icon */}
-                <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00A6B8]/10 to-[#F68B1F]/5 border border-[#00A6B8]/15 flex items-center justify-center text-[#00A6B8] mb-5 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#00A6B8]/20">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    {track.icon}
-                  </svg>
-                </div>
-                <h3 className="text-lg font-bold text-[#003A7A] mb-2 font-['Syne',sans-serif] group-hover:text-[#00A6B8] transition-colors">
-                  {track.title}
-                </h3>
-                <p className="text-sm text-gray-600 mb-4 leading-relaxed font-['DM_Sans',sans-serif]">
-                  {track.desc}
-                </p>
-                <ul className="space-y-1.5 text-sm">
-                  {track.bullets.map((b) => (
-                    <li key={b} className="flex items-start gap-2 text-gray-500 font-['DM_Sans',sans-serif]">
-                      <span className="text-[#00A6B8] mt-0.5 flex-shrink-0">&#8226;</span>
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* What You'll Gain */}
-          <div className="relative rounded-2xl bg-gradient-to-br from-[#003A7A] to-[#002a5e] p-8 lg:p-12 mb-12 overflow-hidden pattern-grid anim-scale-in anim-delay-3">
-            {/* Decorative */}
-            <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-[#00A6B8]/5 blur-3xl" />
-            <div className="absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-[#F68B1F]/5 blur-3xl" />
-
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-10 text-center font-['Syne',sans-serif]">
-              What You&apos;ll Gain
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[
-                {
-                  title: 'Real-World Experience',
-                  desc: 'Work on actual projects used by real clients',
-                  icon: (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  ),
-                },
-                {
-                  title: 'Expert Mentorship',
-                  desc: 'Learn from experienced tech professionals',
-                  icon: (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
-                  ),
-                },
-                {
-                  title: 'Career Growth',
-                  desc: 'Build your portfolio and network with professionals',
-                  icon: (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  ),
-                },
-                {
-                  title: 'Job Placement',
-                  desc: 'Opportunity to join our team or partner companies',
-                  icon: (
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  ),
-                },
-              ].map((item) => (
-                <div key={item.title} className="text-center group">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#00A6B8]/20 to-[#00A6B8]/5 border border-[#00A6B8]/25 flex items-center justify-center mx-auto mb-4 text-[#00A6B8] transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-[#00A6B8]/20">
-                    <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      {item.icon}
-                    </svg>
-                  </div>
-                  <h4 className="text-lg font-bold text-white mb-2 font-['Syne',sans-serif]">{item.title}</h4>
-                  <p className="text-sm text-white/80 font-['DM_Sans',sans-serif]">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Apply CTA */}
-          <div className="text-center anim-fade-up anim-delay-4">
-            <p className="text-base sm:text-lg text-gray-600 mb-6 font-['DM_Sans',sans-serif]">
-              Ready to start your journey? Apply now and join our next cohort!
-            </p>
-            <Link
-              href="/internships/apply"
-              className="group relative inline-flex items-center gap-2 bg-gradient-to-r from-[#F68B1F] to-[#d97a10] text-white px-8 py-3.5 rounded-xl font-bold font-['DM_Sans',sans-serif] transition-all duration-300 hover:shadow-xl hover:shadow-[#F68B1F]/30 hover:-translate-y-0.5 overflow-hidden"
-            >
-              <span className="relative z-10">Apply for an Internship</span>
-              <svg className="relative z-10 w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-              <div className="absolute inset-0 bg-gradient-to-r from-[#d97a10] to-[#F68B1F] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* ===== OUR PROCESS ===== */}
       <section className="py-20 lg:py-28 bg-[#F5F7FA] relative overflow-hidden">
@@ -495,17 +596,33 @@ export default function Services() {
             })}
           </div>
 
-          {/* Connecting line (desktop) */}
-          <div className="hidden lg:block absolute top-[11.5rem] left-[calc(12.5%+3rem)] right-[calc(12.5%+3rem)] h-px bg-gradient-to-r from-[#00A6B8] via-[#F68B1F] to-[#00A6B8] opacity-30" />
+          {/* Connecting line (desktop) with traveling dot */}
+          <div className="hidden lg:block absolute top-[11.5rem] left-[calc(12.5%+3rem)] right-[calc(12.5%+3rem)]">
+            <div className="relative h-px bg-gradient-to-r from-[#00A6B8] via-[#F68B1F] to-[#00A6B8] opacity-30">
+              <div className="traveling-dot" />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ===== CTA SECTION ===== */}
       <section className="relative py-24 lg:py-32 bg-[#003A7A] text-white overflow-hidden pattern-grid">
+        {/* Animated gradient mesh */}
+        <div className="absolute inset-0 gradient-mesh" />
+
         {/* Decorative elements */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-10 w-72 h-72 rounded-full bg-[#00A6B8]/8 blur-3xl animate-pulse" style={{animationDuration: '7s'}} />
           <div className="absolute bottom-10 right-10 w-80 h-80 rounded-full bg-[#F68B1F]/6 blur-3xl animate-pulse" style={{animationDuration: '9s'}} />
+          
+          {/* Orbital rings */}
+          <div className="absolute top-1/3 left-[15%] w-40 h-40 orbit-ring" style={{animation: 'orbitSpin 30s linear infinite', borderColor: 'rgba(0,166,184,0.1)'}}>
+            <div className="orbit-ring-dot" />
+          </div>
+          <div className="absolute bottom-1/4 right-[10%] w-56 h-56 orbit-ring" style={{animation: 'orbitSpinReverse 40s linear infinite', borderColor: 'rgba(246,139,31,0.08)'}}>
+            <div className="orbit-ring-dot" style={{background: '#F68B1F', top: 'auto', bottom: '-3px', left: '50%'}} />
+          </div>
+
           <svg className="absolute top-1/4 right-1/4 w-24 h-24 text-white/5" viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="0.5" style={{animation: 'floatDrift 8s ease-in-out infinite'}} aria-hidden="true">
             <circle cx="50" cy="50" r="45" />
             <path d="M50 5 L50 95 M5 50 L95 50" />

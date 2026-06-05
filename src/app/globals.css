@@ -387,10 +387,20 @@ html {
   .anim-fade-up,
   .anim-fade-left,
   .anim-fade-right,
-  .anim-scale-in {
+  .anim-scale-in,
+  .stat-badge,
+  .orbit-ring,
+  .traveling-dot,
+  .gradient-mesh,
+  .shimmer-overlay::after,
+  .service-pill {
     animation: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+
+  .orbit-ring {
+    border-style: dashed;
   }
 }
 
@@ -506,6 +516,265 @@ html {
   height: 2px;
   background: linear-gradient(90deg, #00A6B8, rgba(0, 166, 184, 0.15));
   z-index: 0;
+}
+
+/* ---- Animated Gradient Mesh ---- */
+@keyframes gradientMesh {
+  0%, 100% { background-position: 0% 50%; }
+  25%      { background-position: 100% 0%; }
+  50%      { background-position: 100% 100%; }
+  75%      { background-position: 0% 100%; }
+}
+
+.gradient-mesh {
+  background: conic-gradient(from 0deg, #003A7A, #00A6B8, #003A7A, #F68B1F, #003A7A);
+  background-size: 400% 400%;
+  animation: gradientMesh 12s ease infinite;
+  filter: blur(80px);
+  opacity: 0.12;
+}
+
+.gradient-mesh-slow {
+  animation-duration: 20s;
+}
+
+/* ---- Orbital Ring ---- */
+@keyframes orbitSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes orbitSpinReverse {
+  from { transform: rotate(360deg); }
+  to   { transform: rotate(0deg); }
+}
+
+.orbit-ring {
+  border: 1px solid rgba(0, 166, 184, 0.15);
+  border-radius: 50%;
+  position: absolute;
+  pointer-events: none;
+}
+
+.orbit-ring-dot {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00A6B8;
+  top: -3px;
+  left: 50%;
+  margin-left: -3px;
+}
+
+/* ---- Floating Stat Badge ---- */
+.stat-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.875rem;
+  color: white;
+  animation: floatDrift 6s ease-in-out infinite;
+}
+
+.stat-badge .stat-number {
+  font-weight: 800;
+  background: linear-gradient(135deg, #00A6B8, #F68B1F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Syne', sans-serif;
+}
+
+.stat-badge .stat-label {
+  opacity: 0.8;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ---- Tech Stack Tag ---- */
+.tech-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(0, 166, 184, 0.08);
+  border: 1px solid rgba(0, 166, 184, 0.15);
+  color: #00A6B8;
+  font-size: 0.8rem;
+  font-weight: 500;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.3s ease;
+}
+
+.tech-tag:hover {
+  background: rgba(0, 166, 184, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 166, 184, 0.2);
+}
+
+.tech-tag-orange {
+  background: rgba(246, 139, 31, 0.08);
+  border-color: rgba(246, 139, 31, 0.2);
+  color: #F68B1F;
+}
+
+.tech-tag-orange:hover {
+  background: rgba(246, 139, 31, 0.15);
+  box-shadow: 0 4px 12px rgba(246, 139, 31, 0.2);
+}
+
+/* ---- Service Card Number Badge ---- */
+.service-number {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: rgba(0, 166, 184, 0.3);
+  transition: all 0.4s ease;
+}
+
+.group:hover .service-number {
+  color: #00A6B8;
+}
+
+/* ---- Traveling Dot (Process Section) ---- */
+@keyframes travelDot {
+  0%   { left: 0%; }
+  50%  { left: calc(100% - 10px); }
+  100% { left: 0%; }
+}
+
+.traveling-dot {
+  position: absolute;
+  top: -4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #F68B1F;
+  box-shadow: 0 0 16px rgba(246, 139, 31, 0.6);
+  animation: travelDot 6s ease-in-out infinite;
+}
+
+/* ---- Icon Draw Path Animation ---- */
+@keyframes drawPath {
+  to { stroke-dashoffset: 0; }
+}
+
+.icon-draw svg path,
+.icon-draw svg circle,
+.icon-draw svg rect,
+.icon-draw svg polygon {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  transition: stroke-dashoffset 0.8s ease;
+}
+
+.icon-draw:hover svg path,
+.icon-draw:hover svg circle,
+.icon-draw:hover svg rect,
+.icon-draw:hover svg polygon {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Floating Pill Links ---- */
+.service-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.service-pill:hover {
+  background: rgba(0, 166, 184, 0.15);
+  border-color: rgba(0, 166, 184, 0.3);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 166, 184, 0.15);
+}
+
+/* ---- Card Inner Glow (on hover) ---- */
+.hover-inner-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 166, 184, 0.06), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.hover-inner-glow:hover::before {
+  opacity: 1;
+}
+
+/* ---- Animated Counter ---- */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.stat-counter {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 2.5rem;
+  line-height: 1;
+  background: linear-gradient(135deg, #00A6B8, #F68B1F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Glow Pulse Extended ---- */
+@keyframes glowPulseOrange {
+  0%, 100% { box-shadow: 0 0 12px rgba(246, 139, 31, 0.3); }
+  50%      { box-shadow: 0 0 28px rgba(246, 139, 31, 0.5); }
+}
+
+.glow-pulse-orange {
+  animation: glowPulseOrange 3s ease-in-out infinite;
+}
+
+/* ---- Card Gradient Edge ---- */
+.gradient-edge {
+  position: relative;
+}
+
+.gradient-edge::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, rgba(0, 166, 184, 0.2), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+  opacity: 0;
+}
+
+.gradient-edge:hover::after {
+  opacity: 1;
 }
 
 /* ---- Shimmer overlay ---- */
