@@ -1,0 +1,8 @@
+{
+  "name": "AFritech Bridge",
+  "description": "AfriTech Bridge turns African potential into verified global talent. Built in Africa. Connected to the world.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

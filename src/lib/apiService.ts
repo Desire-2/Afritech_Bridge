@@ -1,7 +1,9 @@
-const API_BASE_URL =
+const rawBaseUrl =
   process.env.NEXT_PUBLIC_TALENTSPHERE_API_URL ||
   process.env.TALENTSPHERE_API_URL ||
-  'localhost:5001/api';
+  'https://jobs.afritechbridge.online/api';
+
+const API_BASE_URL = rawBaseUrl.startsWith('http') ? rawBaseUrl : `https://${rawBaseUrl}`;
 
 interface ApiJob {
   id: number | string;

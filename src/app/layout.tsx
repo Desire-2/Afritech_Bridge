@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/Navigation";
+import Navbar from "@/components/navigation/Navbar";
+import Footer from "@/components/navigation/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,10 +19,10 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://afritechbridge.online'),
   title: {
-    default: 'AFritech Bridge - Rwanda Tech Education & Software Development',
-    template: '%s | AFritech Bridge Rwanda'
+    default: 'AfriTech Bridge - From African Potential to Verified Global Talent',
+    template: '%s | AfriTech Bridge'
   },
-  description: 'Rwanda\'s premier technology company offering professional software development services, the TalentSpher job portal, and comprehensive tech education in Kigali, Musanze, and Nyabihu. Connect with global opportunities.',
+  description: 'AfriTech Bridge turns African potential into verified global talent. Learn practical skills, build real projects, prove capability with the Talent Passport, and connect with global opportunities. Built in Africa. Connected to the world.',
   keywords: [
     'Rwanda technology company',
     'software development Rwanda',
@@ -186,11 +187,14 @@ export default function RootLayout({
         }) }} />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
         suppressHydrationWarning
       >
-        <Navigation />
-        {children}
+        <Navbar />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

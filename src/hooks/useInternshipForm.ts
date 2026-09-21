@@ -53,23 +53,25 @@ export const useInternshipForm = () => {
     },
   });
 
+  const { reset, watch } = methods;
+
   // Load form state from session storage on mount
   useEffect(() => {
     const savedState = sessionStorage.getItem(STORAGE_KEY);
     if (savedState) {
       try {
         const { formData, step } = JSON.parse(savedState);
-        methods.reset(formData);
+        reset(formData);
         setCurrentStep(step);
       } catch (error) {
         console.error('Failed to load form state:', error);
       }
     }
-  }, []);
+  }, [reset]);
 
   // Save form state to session storage whenever it changes
   useEffect(() => {
-    const subscription = methods.watch((data) => {
+    const subscription = watch((data) => {
       sessionStorage.setItem(
         STORAGE_KEY,
         JSON.stringify({
@@ -80,7 +82,7 @@ export const useInternshipForm = () => {
     });
 
     return () => subscription.unsubscribe();
-  }, [methods, currentStep]);
+  }, [watch, currentStep]);
 
   const goNext = useCallback(async () => {
     const isValid = await methods.trigger();

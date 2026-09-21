@@ -1,409 +1,300 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import React, { useState } from 'react';
+import { Container } from '@/components/ui/Container';
+import { Section } from '@/components/ui/Section';
+import { SectionHeading } from '@/components/ui/SectionHeading';
+import SITE_CONFIG from '@/config/site';
+import { submitContactForm } from '@/services/contact/contactService';
 
-type ToastState = {
-  type: 'success' | 'error'
-  message: string
-} | null
-
-export default function Contact() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [toast, setToast] = useState<ToastState>(null)
+export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
+    inquiryType: 'general',
     subject: '',
-    message: ''
-  })
+    message: '',
+  });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
 
-  useEffect(() => {
-    if (!toast) {
-      return
-    }
-
-    const timer = setTimeout(() => {
-      setToast(null)
-    }, 5000)
-
-    return () => clearTimeout(timer)
-  }, [toast])
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-    
+    e.preventDefault();
+    setStatus('loading');
+    setFeedbackMessage('');
+
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      })
-      
-      const result = await response.json()
-      
-      if (response.ok && result.success) {
-        setToast({
-          type: 'success',
-          message: 'Message delivered. Thank you for reaching out. Our AFritech Bridge team will respond within 24 hours.',
-        })
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          subject: '',
-          message: ''
-        })
-      } else {
-        setToast({
-          type: 'error',
-          message: result.error || 'We could not send your message right now. Please try again or contact us directly.',
-        })
-      }
-    } catch (error) {
-      console.error('Error sending message:', error)
-      setToast({
-        type: 'error',
-        message: 'Connection issue detected. Please try again in a moment or contact us directly.',
-      })
-    } finally {
-      setIsSubmitting(false)
+      const result = await submitContactForm({
+        ...formData,
+        subject: `[${formData.inquiryType.toUpperCase()}] ${formData.subject || 'Direct Inquiry'}`,
+      });
+
+      setStatus('success');
+      setFeedbackMessage(
+        result.message ||
+          'Thank you for contacting AfriTech Bridge. Our team will review your inquiry and get back to you within 24 hours.'
+      );
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        inquiryType: 'general',
+        subject: '',
+        message: '',
+      });
+    } catch (err: unknown) {
+      setStatus('error');
+      setFeedbackMessage(
+        err instanceof Error
+          ? err.message
+          : 'Unable to deliver message right now. Please reach us directly by phone or email.'
+      );
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen bg-white">
-      {toast && (
-        <div className="fixed top-6 right-6 z-50 max-w-md animate-fade-in">
-          <div
-            className={`rounded-xl border px-4 py-3 shadow-xl backdrop-blur-sm ${
-              toast.type === 'success'
-                ? 'border-emerald-200 bg-emerald-50 text-emerald-900'
-                : 'border-rose-200 bg-rose-50 text-rose-900'
-            }`}
-            role="status"
-            aria-live="polite"
-          >
-            <p className="text-sm font-semibold">{toast.type === 'success' ? 'Success' : 'Notice'}</p>
-            <p className="mt-1 text-sm leading-relaxed">{toast.message}</p>
-          </div>
-        </div>
-      )}
-
+    <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#1A2B4C] to-[#00A896] text-white py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Get in Touch
+      <section className="bg-gradient-to-b from-[#0B1C3A] via-[#0E2246] to-[#0B1C3A] text-white py-20 border-b border-slate-800">
+        <Container>
+          <div className="max-w-3xl mx-auto text-center space-y-4">
+            <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+              Contact AfriTech Bridge
             </h1>
-            <p className="text-xl text-gray-200 max-w-3xl mx-auto">
-              Ready to start your tech journey or need a custom software solution? We're here to help you bridge the gap to global opportunities.
+            <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
+              Have questions about our talent pipelines, custom software engineering, corporate workforce training, or student programs? We are here to help.
             </p>
           </div>
-        </div>
+        </Container>
       </section>
 
-      {/* Contact Form & Info */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
-              <h2 className="text-3xl font-bold text-[#1A2B4C] mb-6">Send us a Message</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
-                    placeholder="Your full name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
-                    placeholder="+250 xxx xxx xxx"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    Subject *
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="course-inquiry">Course Inquiry</option>
-                    <option value="software-development">Software Development Project</option>
-                    <option value="partnership">Partnership Opportunity</option>
-                    <option value="general">General Inquiry</option>
-                    <option value="support">Support</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
-                    placeholder="Tell us about your project or inquiry..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-[#FF7F50] hover:bg-[#FF6B35] text-white py-3 px-6 rounded-lg font-semibold transition-colors"
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            </div>
+      {/* Main Content: Form & Direct Contact Info */}
+      <Section variant="white" spacing="lg">
+        <Container>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            {/* Left Column: Direct Info & Hubs (5 cols) */}
+            <div className="lg:col-span-5 space-y-8">
+              <div>
+                <h2 className="text-2xl font-bold text-[#0B1C3A]">
+                  Speak directly with our team
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">
+                  Our core operations are stationed at Norrsken House in Kigali, with active technical hubs in Musanze and Nyabihu.
+                </p>
+              </div>
 
-            {/* Contact Information */}
-            <div>
-              <h2 className="text-3xl font-bold text-[#1A2B4C] mb-6">Contact Information</h2>
-              <div className="space-y-8">
-                <div className="flex items-start">
-                  <div className="bg-[#00A896] text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Verified Direct Channels */}
+              <div className="space-y-4">
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#00A896]/10 text-[#00A896] flex items-center justify-center shrink-0 font-bold">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-[#1A2B4C] mb-2">Phone</h3>
-                    <p className="text-gray-600">0780784924</p>
-                    <p className="text-sm text-gray-500 mt-1">Available Monday - Friday, 8:00 AM - 6:00 PM</p>
+                    <span className="text-[11px] font-mono uppercase text-slate-500 font-bold block">
+                      Direct Phone / WhatsApp
+                    </span>
+                    <a
+                      href={`tel:${SITE_CONFIG.phone}`}
+                      className="text-sm font-bold text-[#0B1C3A] hover:text-[#00A896] transition-colors"
+                    >
+                      {SITE_CONFIG.phoneFormatted} ({SITE_CONFIG.phone})
+                    </a>
                   </div>
                 </div>
 
-                <div className="flex items-start">
-                  <div className="bg-[#00A896] text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
+                  <div className="w-8 h-8 rounded-lg bg-[#00A896]/10 text-[#00A896] flex items-center justify-center shrink-0 font-bold">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-[#1A2B4C] mb-2">Email</h3>
-                    <p className="text-gray-600">afritech.bridge@yahoo.com</p>
-                    <p className="text-sm text-gray-500 mt-1">We'll respond within 24 hours</p>
+                    <span className="text-[11px] font-mono uppercase text-slate-500 font-bold block">
+                      Official Inquiries Email
+                    </span>
+                    <a
+                      href={`mailto:${SITE_CONFIG.email}`}
+                      className="text-sm font-bold text-[#0B1C3A] hover:text-[#00A896] transition-colors"
+                    >
+                      {SITE_CONFIG.email}
+                    </a>
                   </div>
                 </div>
+              </div>
 
-                <div className="flex items-start">
-                  <div className="bg-[#00A896] text-white w-12 h-12 rounded-full flex items-center justify-center mr-4">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
+              {/* Physical Locations List */}
+              <div className="pt-4 border-t border-slate-200">
+                <h3 className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 mb-3">
+                  Verified Physical Locations (Rwanda)
+                </h3>
+                <div className="space-y-3">
+                  {SITE_CONFIG.locations.map((loc) => (
+                    <div key={loc.city} className="p-3 rounded-lg border border-slate-200/80 bg-white">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-[#0B1C3A]">{loc.city}</span>
+                        <span className="text-[10px] font-mono text-[#00A896] font-semibold">{loc.role}</span>
+                      </div>
+                      <p className="text-xs text-slate-600 mt-1 font-mono">{loc.detail}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Interactive Form (7 cols) */}
+            <div className="lg:col-span-7">
+              <div className="p-6 sm:p-8 rounded-2xl bg-white border border-slate-200/90 shadow-sm">
+                <h2 className="text-xl font-bold text-[#0B1C3A] mb-1">
+                  Send an Inquiry
+                </h2>
+                <p className="text-xs text-slate-500 mb-6">
+                  Fill out the details below and a member of our technical or talent leadership team will respond promptly.
+                </p>
+
+                {status === 'success' && (
+                  <div className="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm">
+                    <p className="font-bold mb-1">Success</p>
+                    <p>{feedbackMessage}</p>
                   </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-[#1A2B4C] mb-2">Our Locations</h3>
-                    <div className="space-y-2 text-gray-600">
-                      <p><span className="font-medium">Kigali:</span> Norrsken house</p>
-                      <p><span className="font-medium">Musanze:</span> near Iness Ruhengeri</p>
-                      <p><span className="font-medium">Nyabihu:</span> Mukamira</p>
+                )}
+
+                {status === 'error' && (
+                  <div className="mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs sm:text-sm">
+                    <p className="font-bold mb-1">Notice</p>
+                    <p>{feedbackMessage}</p>
+                  </div>
+                )}
+
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="name" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                        Full Name *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        required
+                        value={formData.name}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                        placeholder="e.g. Jean Paul Habimana"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="email" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                        Email Address *
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                        placeholder="you@company.com"
+                      />
                     </div>
                   </div>
-                </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="phone" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                        placeholder="+250 78X XXX XXX"
+                      />
+                    </div>
+
+                    <div>
+                      <label htmlFor="inquiryType" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                        Inquiry Category *
+                      </label>
+                      <select
+                        id="inquiryType"
+                        name="inquiryType"
+                        value={formData.inquiryType}
+                        onChange={handleChange}
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 bg-white focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                      >
+                        <option value="general">General Information</option>
+                        <option value="employer">Hire Verified Talent (TalentSphere)</option>
+                        <option value="software">Custom Software & Product Studio</option>
+                        <option value="workforce">Workforce & Corporate Training</option>
+                        <option value="internship">Internship & Student Program</option>
+                        <option value="partnership">Ecosystem Partnership</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="subject" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                      Subject *
+                    </label>
+                    <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      required
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                      placeholder="Brief description of your need or inquiry"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-xs font-mono font-bold text-slate-700 uppercase mb-1">
+                      Message *
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={5}
+                      required
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#00A896] focus:border-transparent"
+                      placeholder="Please share details about your team, project requirements, or questions..."
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full sm:w-auto px-8 py-3.5 rounded-lg bg-[#F07C2E] hover:bg-[#E06C1E] text-white font-semibold text-sm transition-colors shadow-sm disabled:opacity-50 cursor-pointer"
+                  >
+                    {status === 'loading' ? 'Submitting Message...' : 'Send Message'}
+                  </button>
+                </form>
               </div>
-
-              {/* Quick Links */}
-              <div className="mt-12">
-                <h3 className="text-xl font-semibold text-[#1A2B4C] mb-4">Quick Actions</h3>
-                <div className="space-y-3">
-                  <Link href="/courses" className="block bg-[#00A896] hover:bg-[#008B7A] text-white px-6 py-3 rounded-lg font-semibold transition-colors text-center">
-                    Browse Our Courses
-                  </Link>
-                  <Link href="/services" className="block border-2 border-[#00A896] text-[#00A896] hover:bg-[#00A896] hover:text-white px-6 py-3 rounded-lg font-semibold transition-colors text-center">
-                    View Our Services
-                  </Link>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1A2B4C] mb-4">
-              Frequently Asked Questions
-            </h2>
-            <p className="text-xl text-gray-600">
-              Quick answers to common questions
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">How long are the courses?</h3>
-              <p className="text-gray-600">Our courses range from 8-18 weeks depending on the program. We offer both full-time and part-time options to fit your schedule.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">Do you offer job placement assistance?</h3>
-              <p className="text-gray-600">Yes! We provide career support including resume building, interview preparation, and connections to our network of partner companies.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">What programming languages do you teach?</h3>
-              <p className="text-gray-600">We teach Python, JavaScript, Java, C++, and other in-demand languages. Our curriculum is updated regularly to match industry needs.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">Can I learn online?</h3>
-              <p className="text-gray-600">Absolutely! We offer online, in-person, and hybrid learning options. Our online platform provides the same quality education as our in-person classes. Access our <a href="https://study.afritechbridge.online" target="_blank" rel="noopener noreferrer" className="text-[#00A896] hover:underline font-medium">Learning Management System</a> for all course materials.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">What are your software development rates?</h3>
-              <p className="text-gray-600">Our rates vary based on project complexity and requirements. Contact us for a free consultation and custom quote for your project.</p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <h3 className="text-lg font-semibold text-[#1A2B4C] mb-3">Do you work with international clients?</h3>
-              <p className="text-gray-600">Yes! We work with clients globally. Our team is experienced in remote collaboration and can work across different time zones.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-20 bg-[#1A2B4C] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Ready to Bridge Your Future?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Whether you're looking to learn new skills or need a software solution, we're here to help you succeed.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/courses" className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-8 py-3 rounded-lg font-semibold transition-colors">
-              Start Learning Today
-            </Link>
-            <Link href="/services" className="border-2 border-white text-white hover:bg-white hover:text-[#1A2B4C] px-8 py-3 rounded-lg font-semibold transition-colors">
-              Get a Project Quote
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <div className="flex items-center mb-4">
-                <Image
-                  src="/images/logo.png"
-                  alt="AFritech Bridge"
-                  width={32}
-                  height={32}
-                  className="mr-2"
-                />
-                <span className="text-lg font-bold">AFritech Bridge</span>
-              </div>
-              <p className="text-gray-400">
-                We connect youth with global opportunities
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Services</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/services" className="hover:text-white transition-colors">Web Development</Link></li>
-                <li><Link href="/services" className="hover:text-white transition-colors">Mobile Apps</Link></li>
-                <li><Link href="/services" className="hover:text-white transition-colors">Custom Software</Link></li>
-                <li><Link href="/services" className="hover:text-white transition-colors">IT Consulting</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Courses</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link href="/courses" className="hover:text-white transition-colors">Programming</Link></li>
-                <li><Link href="/courses" className="hover:text-white transition-colors">Web Development</Link></li>
-                <li><Link href="/courses" className="hover:text-white transition-colors">Mobile Development</Link></li>
-                <li><Link href="/courses" className="hover:text-white transition-colors">Data Science</Link></li>
-                <li className="pt-2">
-                  <a 
-                    href="https://study.afritechbridge.online" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="bg-[#FF7F50] hover:bg-[#FF6B35] text-white px-3 py-1 rounded text-sm inline-flex items-center transition-colors">
-                    <span>Access LMS</span>
-                    <svg className="w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-semibold mb-4">Contact</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>Phone: 0780784924</li>
-                <li>Email: afritech.bridge@yahoo.com</li>
-                <li>Kigali: Norrsken house</li>
-                <li>Musanze: near Iness Ruhengeri</li>
-                <li>Nyabihu: Mukamira</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 AFritech Bridge. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+        </Container>
+      </Section>
     </div>
-  )
+  );
 }
-
